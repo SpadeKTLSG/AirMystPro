@@ -3,13 +3,14 @@ import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.io.File;
+import java.io.IOException;
 
 @SpringBootTest
 public class CommonsIOEg {
 
 
     @Test
-    public void test() {
+    public void test() throws IOException {
         // Copy a file
         File source = new File("source.txt");
         File destination = new File("destination.txt");

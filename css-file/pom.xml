@@ -9,12 +9,23 @@
         <version>3.0</version>
     </parent>
 
+    <groupId>org.spc.file</groupId>
     <artifactId>css-file</artifactId>
+    <description>CSS-文件模块</description>
+    <version>3.0</version>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.spc.base</groupId>
+            <artifactId>css-base</artifactId>
+            <version>3.0</version>
+        </dependency>
+    </dependencies>
 
 </project>

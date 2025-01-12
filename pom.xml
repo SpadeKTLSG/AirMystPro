@@ -22,7 +22,7 @@
         <module>css-device</module>
         <module>css-file</module>
         <module>css-front</module>
-        <module>css-public</module>
+        <module>css-base</module>
     </modules>
 
     <properties>
