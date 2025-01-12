@@ -1,0 +1,46 @@
+package org.spc.process.entity;
+
+
+import org.spc.base.common.constant.ProcessCT;
+
+import java.util.HashMap;
+
+/**
+ * 进程控制块
+ */
+public class Pcb {
+
+    /**
+     * 进程标识符
+     */
+    public int pcbId;
+    /**
+     * 进程状态：
+     * 0：就绪态
+     * 1：运行态
+     * 2：阻塞态
+     * 3：终止
+     */
+    public volatile int state;
+    /**
+     * 寄存器
+     */
+    public HashMap<String, Integer> register;
+    /**
+     * 运行哪条语句
+     */
+    public String lines;
+    /**
+     * 阻塞原因
+     */
+    public String blockageCause;
+
+    Pcb() {
+        this.pcbId = ProcessCT.PID.getAndIncrement(); //获取进程标识符
+        this.state = 0;
+        register = new HashMap<String, Integer>();
+        this.lines = null;
+    }
+
+
+}
