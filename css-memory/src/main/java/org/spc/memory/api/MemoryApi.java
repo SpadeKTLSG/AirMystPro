@@ -10,5 +10,5 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/memory")
 @RequiredArgsConstructor
-public class MemoryAPI {
+public class MemoryApi {
 }
