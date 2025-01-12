@@ -1,14 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="Encoding" defaultCharsetForPropertiesFiles="UTF-8">
+    <file url="file://$PROJECT_DIR$/css-bkbase/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/css-device/lib" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/css-device/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/css-device/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/css-file/lib" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/css-file/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/css-file/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/css-front/lib" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/css-front/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/css-front/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/css-memory/lib" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/css-memory/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/css-memory/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/css-process/lib" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/css-process/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/css-process/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/lib" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/resources" charset="UTF-8" />
     <file url="PROJECT" charset="UTF-8" />
