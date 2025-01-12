@@ -15,6 +15,7 @@ public class DeviceApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(DeviceApplication.class, args);
+        log.debug("DeviceService Started...");
     }
 }
 

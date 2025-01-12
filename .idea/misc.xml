@@ -13,6 +13,7 @@
         <option value="$PROJECT_DIR$/pom.xml" />
         <option value="$PROJECT_DIR$/css-front/pom.xml" />
         <option value="$PROJECT_DIR$/css-public/pom.xml" />
+        <option value="$PROJECT_DIR$/css-base/pom.xml" />
       </list>
     </option>
     <option name="ignoredFiles">
