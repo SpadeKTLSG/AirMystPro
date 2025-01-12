@@ -1,0 +1,35 @@
+server:
+  port: 11484 # 服务端口
+
+spring:
+
+  application:
+    name: memory
+
+  profiles:
+    active: dev   # 环境 dev|test|prod
+
+  main:
+    allow-circular-references: true # 允许循环引用
+    allow-bean-definition-overriding: true # 允许覆盖bean定义
+    lazy-initialization: false # 关闭懒加载, 防止组件失效
+
+
+  #时间格式
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+    default-property-inclusion: NON_NULL # JSON处理时忽略空字段
+
+
+
+
+# 日志配置
+logging:
+
+  level:
+    org.spc:
+      DEBUG
+
+  pattern:
+    dateformat: mm:ss.SSS
