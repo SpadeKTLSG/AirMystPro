@@ -14,6 +14,7 @@ public class Pcb {
      * 进程标识符
      */
     public int pcbId;
+
     /**
      * 进程状态：
      * 0：就绪态
@@ -22,6 +23,7 @@ public class Pcb {
      * 3：终止
      */
     public volatile int state;
+
     /**
      * 寄存器
      */
