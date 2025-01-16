@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -16,25 +17,29 @@ import java.util.List;
 @Slf4j
 public class CompoLoader implements Loader<BaseCompo> {
 
+    /**
+     * 加载组件
+     *
+     * @note 通过反射寻找BaseCompo的子类字段, 并将其添加到compoGroup中
+     */
     @Override
     public List<BaseCompo> load(Class<?> clazz, Object instance) {
         List<BaseCompo> compoGroup = new ArrayList<>();
 
-        // 通过反射寻找BaseCompo的子类字段, 并将其添加到compoGroup中
         Field[] fields = clazz.getDeclaredFields();
-        for (Field field : fields) {
-            if (BaseCompo.class.isAssignableFrom(field.getType())) {
-                try {
-                    field.setAccessible(true);
-                    BaseCompo compo = (BaseCompo) field.get(instance);
-                    if (compo != null) {
-                        compoGroup.add(compo);
+        Arrays.stream(fields)
+                .filter(field -> BaseCompo.class.isAssignableFrom(field.getType()))
+                .forEach(field -> {
+                    try {
+                        field.setAccessible(true);
+                        BaseCompo compo = (BaseCompo) field.get(instance);
+                        if (compo != null) {
+                            compoGroup.add(compo);
+                        }
+                    } catch (IllegalAccessException e) {
+                        log.error("load error", e); //todo polish!
                     }
-                } catch (IllegalAccessException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
+                });
         compoGroup.forEach(BaseCompo::initial);
 
         return compoGroup;

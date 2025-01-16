@@ -12,8 +12,8 @@ public class ProcessScheduler extends BaseCompo {
 
     private ProcessListArtifact processList;
     private QueueArtifact queueArtifact;
-
-    public void initialArtifact(Process process) {
-        processList.setProcessList();
-    }
+//
+//    public void initialArtifact(Process process) {
+//        processList.setProcessList();
+//    }
 }

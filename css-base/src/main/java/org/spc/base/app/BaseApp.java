@@ -1,29 +1,31 @@
 package org.spc.base.app;
 
-import org.spc.base.artifact.BaseArtifact;
 import org.spc.base.compo.BaseCompo;
-import org.springframework.stereotype.Component;
+import org.spc.base.sys.loader.impl.CompoLoader;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
-@Component
+
+@Service
 public abstract class BaseApp {
 
     /**
+     * 组件加载器
+     */
+    @Autowired
+    private CompoLoader compoLoader;
+    /**
      * 组件组
      */
-    List<BaseCompo> compoGroup;
+    private List<BaseCompo> compoGroup;
 
-    BaseCompo baseCompo;
-
-
-    public void loadCompo() {
-        //load
-        this.compoGroup.addAll()
-
-        //init
-        baseCompo.initial();
+    /**
+     * 加载组件
+     */
+    public void loadCompo(Class<?> clazz, Object instance) {
+        this.compoGroup = compoLoader.load(clazz, instance);
     }
 
 
