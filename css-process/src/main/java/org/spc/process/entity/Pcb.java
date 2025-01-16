@@ -1,6 +1,9 @@
 package org.spc.process.entity;
 
 
+import lombok.Builder;
+import lombok.Data;
+import lombok.experimental.Accessors;
 import org.spc.base.common.constant.ProcessCT;
 
 import java.util.HashMap;
@@ -8,12 +11,15 @@ import java.util.HashMap;
 /**
  * 进程控制块
  */
+@Data
+@Builder
+@Accessors(chain = true)
 public class Pcb {
 
     /**
      * 进程标识符
      */
-    public int pcbId;
+    private int pcbId;
 
     /**
      * 进程状态：
@@ -22,20 +28,20 @@ public class Pcb {
      * 2：阻塞态
      * 3：终止
      */
-    public volatile int state;
+    private volatile int state;
 
     /**
      * 寄存器
      */
-    public HashMap<String, Integer> register;
+    private HashMap<String, Integer> register;
     /**
      * 运行哪条语句
      */
-    public String lines;
+    private String lines;
     /**
      * 阻塞原因
      */
-    public String blockageCause;
+    private String blockageCause;
 
     Pcb() {
         this.pcbId = ProcessCT.PID.getAndIncrement(); //获取进程标识符
