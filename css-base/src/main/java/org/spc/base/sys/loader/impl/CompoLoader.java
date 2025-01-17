@@ -40,7 +40,8 @@ public class CompoLoader implements Loader<BaseCompo> {
                         log.error("load error", e); //todo polish!
                     }
                 });
-        compoGroup.forEach(BaseCompo::initial);
+        // 组件加载工件
+        compoGroup.forEach(compo -> compo.initial(compo.getClass(), compo));
 
         return compoGroup;
     }
