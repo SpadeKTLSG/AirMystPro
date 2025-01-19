@@ -3,24 +3,22 @@ package org.spc.process.artifact;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.spc.base.artifact.BaseArtifact;
-import org.spc.base.common.constant.ProcessCT;
+import org.spc.process.entity.Process;
 import org.springframework.stereotype.Service;
 
-import java.util.concurrent.ArrayBlockingQueue;
-
-
 /**
- * 阻塞队列工件
+ * 运行进程暂存工件
  */
+
 @Service
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class BlockQueueArtifact extends BaseArtifact {
+public class RunningProcessArtifact extends BaseArtifact {
 
     /**
-     * 阻塞队列
+     * 正在运行的进程
      */
-    volatile ArrayBlockingQueue<Process> arrayBlockingQueue;
+    Process runningProcess;
 
 
     @Override
@@ -28,7 +26,7 @@ public class BlockQueueArtifact extends BaseArtifact {
         Class<?> clazz = this.getClass();
         Object instance = this;
         super.initial(clazz, instance);
-        arrayBlockingQueue = new ArrayBlockingQueue<>(ProcessCT.Queue_LENGTH_DEFAULT);
+        runningProcess = null;
     }
 
     @Override

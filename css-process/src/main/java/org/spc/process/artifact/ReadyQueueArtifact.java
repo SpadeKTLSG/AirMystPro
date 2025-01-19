@@ -1,8 +1,10 @@
 package org.spc.process.artifact;
 
-import lombok.RequiredArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 import org.spc.base.artifact.BaseArtifact;
 import org.spc.base.common.constant.ProcessCT;
+import org.spc.process.entity.Process;
 import org.springframework.stereotype.Service;
 
 import java.util.concurrent.ArrayBlockingQueue;
@@ -10,8 +12,10 @@ import java.util.concurrent.ArrayBlockingQueue;
 /**
  * 就绪队列工件
  */
+
 @Service
-@RequiredArgsConstructor
+@Data
+@EqualsAndHashCode(callSuper = true)
 public class ReadyQueueArtifact extends BaseArtifact {
 
     /**
