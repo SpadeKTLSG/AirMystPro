@@ -3,13 +3,13 @@ package org.spc.base.artifact;
 import lombok.extern.slf4j.Slf4j;
 import org.spc.api.IHamamap;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 /**
  * 工件基类
  */
 @Slf4j
-@Component
+@Service
 public abstract class BaseArtifact {
 
     //! Properties

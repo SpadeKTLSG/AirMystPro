@@ -2,20 +2,32 @@ package org.spc.process.compo;
 
 import lombok.RequiredArgsConstructor;
 import org.spc.base.compo.BaseCompo;
-import org.spc.process.artifact.ProcessListArtifact;
-import org.spc.process.artifact.QueueArtifact;
-import org.springframework.stereotype.Component;
+import org.spc.process.artifact.BlockQueueArtifact;
+import org.spc.process.artifact.ReadyQueueArtifact;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
-@Component
+/**
+ * 进程调度组件
+ */
+@Service
 @RequiredArgsConstructor
 public class ProcessSchedulerCompo extends BaseCompo {
 
-    private ProcessListArtifact processList;
-    private QueueArtifact queueArtifact;
+    //? Artifacts
+    @Autowired
+    ReadyQueueArtifact readyQueueArtifact;
+
+    @Autowired
+    BlockQueueArtifact blockQueueArtifact;
+
+    //? Default Methods
 
     @Override
     public void initial() {
-
+        Class<?> clazz = this.getClass();
+        Object instance = this;
+        super.initial(clazz, instance);
     }
 
     @Override
@@ -27,5 +39,8 @@ public class ProcessSchedulerCompo extends BaseCompo {
     public void loadConfig() {
 
     }
+
+    //! Func
+
 
 }

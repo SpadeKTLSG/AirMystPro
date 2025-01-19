@@ -8,4 +8,9 @@ public interface ProcessCT {
      * AtomicInteger PID 用于生成进程的唯一标识
      */
     AtomicInteger PID = new AtomicInteger(1);
+
+    /**
+     * 默认队列长度
+     */
+    int Queue_LENGTH_DEFAULT = 10;
 }

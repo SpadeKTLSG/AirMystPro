@@ -1,33 +1,36 @@
 package org.spc.process.artifact;
 
+import lombok.RequiredArgsConstructor;
 import org.spc.base.artifact.BaseArtifact;
 import org.spc.base.common.constant.ProcessCT;
 import org.springframework.stereotype.Service;
 
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ArrayBlockingQueue;
+
 
 /**
- * 进程链表工件
+ * 阻塞队列工件
  */
 @Service
-public class ProcessListArtifact extends BaseArtifact {
+@RequiredArgsConstructor
+public class BlockQueueArtifact extends BaseArtifact {
 
     /**
-     * 进程链表
+     * 阻塞队列
      */
-    ConcurrentHashMap<Integer, Process> processList;
+    volatile ArrayBlockingQueue<Process> arrayBlockingQueue;
+
 
     @Override
     public void initial() {
         Class<?> clazz = this.getClass();
         Object instance = this;
         super.initial(clazz, instance);
-        processList = new ConcurrentHashMap<>(ProcessCT.Queue_LENGTH_DEFAULT);
+        arrayBlockingQueue = new ArrayBlockingQueue<>(ProcessCT.Queue_LENGTH_DEFAULT);
     }
 
     @Override
     public void loadConfig() {
 
     }
-
 }

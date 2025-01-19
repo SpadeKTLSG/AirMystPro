@@ -17,6 +17,13 @@ import java.util.List;
 @Service
 public abstract class BaseApp {
 
+    //? Artifacts
+    /**
+     * 核心组件
+     */
+    @Autowired
+    CoreCompo coreCompo;
+
     //! Properties
     /**
      * 组件加载器
@@ -29,11 +36,7 @@ public abstract class BaseApp {
      */
     @Autowired
     List<BaseCompo> compoGroup;
-    /**
-     * 核心组件
-     */
-    @Autowired
-    CoreCompo coreCompo;
+
     /**
      * 动态配置器
      */
