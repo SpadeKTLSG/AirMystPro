@@ -20,6 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class ProcessSchedulerCompo extends BaseCompo {
 
     //? Artifacts
+
     @Autowired
     ReadyQueueArtifact readyQueueArtifact;
 

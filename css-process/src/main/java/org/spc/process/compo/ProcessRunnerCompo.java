@@ -4,8 +4,8 @@ package org.spc.process.compo;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.extern.slf4j.Slf4j;
+import org.spc.base.client.MemoryClient;
 import org.spc.base.compo.BaseCompo;
-import org.spc.process.artifact.RunningProcessArtifact;
 import org.spc.process.entity.Process;
 import org.spc.process.entity.struct.Pcb;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,15 +22,18 @@ import java.io.IOException;
 @EqualsAndHashCode(callSuper = true)
 public class ProcessRunnerCompo extends BaseCompo {
 
-    //? Artifacts
     @Autowired
-    RunningProcessArtifact runningProcessArtifact;
+    MemoryClient memoryClient;
 
     @Autowired
     ProcessSchedulerCompo processSchedulingCompo;
 
     @Autowired
     IOHandlerCompo ioHandlerCompo;
+
+
+    //? Artifacts
+
 
     //? Default Methods
     @Override
@@ -59,27 +62,30 @@ public class ProcessRunnerCompo extends BaseCompo {
     public void runProcess(Process process) throws IOException, InterruptedException {
         Pcb pcb = process.getPcb();
 
-        if (pcb.getState() != 1) {
+        if (pcb.getState() != 1) {//如果不是运行态
             return;
         }
-        //运行态
 
+        //读取指令
         String s = process.getBufferedReader().readLine();
+        if (s == null) { //没东西了直接终止
+            pcb.setState(3); //终止态
+            processSchedulingCompo.getRunningProcessArtifact().setRunningProcess(null);
+            processSchedulingCompo.getReadyToRun();
+            process.setStop(true); //钩子终止
+            return;
+        }
+
         log.debug("进程{}运行{}", pcb.getPcbId(), s);
 
-        //分配内存 todo
-        //MemoryManager.allocateMemory(pcb.getPcbId(), s);
 
-        pcb.setTargetLine(s);
+        //分配内存
+        memoryClient.allocateMemory(pcb.getPcbId(), s);
+
+        pcb.setTargetLine(s); //设置目标指令信息
 
         //进行指令处理
-        if (s == null) { //Supress warning
-            pcb.setState(3); //终止态
-            runningProcessArtifact.setRunningProcess(null);
-            processSchedulingCompo.getReadyToRun();
-            process.setStop(true);
-
-        } else if (s.contains("=")) { //赋值语句
+        if (s.contains("=")) { //赋值语句
             String[] split = s.split("=");
             pcb.getRegister().put(split[0], Integer.valueOf(split[1]));
 
@@ -114,10 +120,11 @@ public class ProcessRunnerCompo extends BaseCompo {
             process.setStop(true);
         }
 
+
         Thread.sleep(2000); //模拟处理过程
 
         pcb.setState(0); //就绪态
-        processSchedulingCompo.getReadyQueueArtifact().getArrayBlockingQueue().add(runningProcessArtifact.getRunningProcess());
+        processSchedulingCompo.getReadyQueueArtifact().getArrayBlockingQueue().add(processSchedulingCompo.getRunningProcessArtifact().getRunningProcess());
         processSchedulingCompo.getRunningProcessArtifact().setRunningProcess(null);
     }
 

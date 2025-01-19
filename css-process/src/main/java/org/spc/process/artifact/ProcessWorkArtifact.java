@@ -4,6 +4,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.extern.slf4j.Slf4j;
 import org.spc.base.artifact.BaseArtifact;
+import org.spc.base.client.MemoryClient;
 import org.spc.process.compo.ProcessRunnerCompo;
 import org.spc.process.entity.Process;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,9 @@ import java.io.IOException;
 @Data
 @EqualsAndHashCode(callSuper = true)
 public class ProcessWorkArtifact extends BaseArtifact {
+
+    @Autowired
+    MemoryClient memoryClient;
 
     @Autowired
     ProcessRunnerCompo processRunnerCompo;
@@ -55,8 +59,8 @@ public class ProcessWorkArtifact extends BaseArtifact {
             processRunnerCompo.runProcess(process);
         }
 
-        //释放CPU, 清理内存 todo
-//            MemoryManager.releaseMemory(pcb.pcbId);
+        //清理内存
+        memoryClient.releaseMemory(process.getPcb().getPcbId());
     }
 
 }
