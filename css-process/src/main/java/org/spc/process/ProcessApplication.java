@@ -9,7 +9,7 @@ import org.springframework.context.annotation.EnableAspectJAutoProxy;
 
 @Slf4j
 @SpringBootApplication
-@EnableFeignClients(basePackages = "org.spc.process.client", defaultConfiguration = FeignConfig.class)
+@EnableFeignClients(basePackages = "org.spc.base.client", defaultConfiguration = FeignConfig.class)
 @EnableAspectJAutoProxy()
 public class ProcessApplication {
 
