@@ -4,6 +4,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.spc.base.artifact.BaseArtifact;
 import org.spc.base.common.constant.ProcessCT;
+import org.spc.process.entity.Process;
 import org.springframework.stereotype.Service;
 
 import java.util.concurrent.ConcurrentHashMap;

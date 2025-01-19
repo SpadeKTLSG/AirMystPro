@@ -1,4 +1,4 @@
-package org.spc.process.entity;
+package org.spc.process.entity.struct;
 
 
 import lombok.Builder;
@@ -37,17 +37,18 @@ public class Pcb {
     /**
      * 运行哪条语句
      */
-    private String lines;
+    private String targetLine;
     /**
      * 阻塞原因
      */
-    private String blockageCause;
+    private String blockReason;
+
 
     Pcb() {
-        this.pcbId = ProcessCT.PID.getAndIncrement(); //获取进程标识符
+        this.pcbId = ProcessCT.PID.getAndIncrement(); //获取原子进程标识符
         this.state = 0;
-        register = new HashMap<String, Integer>();
-        this.lines = null;
+        register = new HashMap<>();
+        this.targetLine = null;
     }
 
 
