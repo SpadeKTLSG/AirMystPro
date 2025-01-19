@@ -3,6 +3,7 @@ package org.spc.base.sys.loader.impl;
 import lombok.extern.slf4j.Slf4j;
 import org.spc.base.compo.BaseCompo;
 import org.spc.base.sys.loader.Loader;
+import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 
 import java.lang.reflect.Field;
@@ -23,6 +24,7 @@ public class CompoLoader implements Loader<BaseCompo> {
      * @note 通过反射寻找BaseCompo的子类字段, 并将其添加到compoGroup中
      */
     @Override
+    @Bean
     public List<BaseCompo> load(Class<?> clazz, Object instance) {
         List<BaseCompo> compoGroup = new ArrayList<>();
 

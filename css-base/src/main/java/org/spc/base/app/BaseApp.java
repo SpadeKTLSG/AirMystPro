@@ -27,15 +27,18 @@ public abstract class BaseApp {
     /**
      * 组件组
      */
+    @Autowired
     private List<BaseCompo> compoGroup;
     /**
      * 核心组件
      */
+    @Autowired
     private CoreCompo coreCompo;
     /**
      * 动态配置器
      */
-    private IHamamap<String, String> dynamicConfig;
+    @Autowired
+    private IHamamap<String, String> dynamicConfiger;
 
 
     //! BaseApp Functions
@@ -44,23 +47,18 @@ public abstract class BaseApp {
      * 初始化
      */
     public void initial(Class<?> clazz, Object instance) {
+        log.debug("Class: {} Instance: {} Group: {} is loading", clazz, instance, compoGroup);
         loadCompo(clazz, instance);
-        log.debug("Class: {} Instance: {} ArtifactGroup: {} has loaded", clazz, instance, compoGroup);
-        //todo
-
+        loadConfig();
     }
 
     /**
      * 初始化1 加载组件
      */
-    public void loadCompo(Class<?> clazz, Object instance) {
-        this.compoGroup = compoLoader.load(clazz, instance);
-    }
+    public abstract void loadCompo(Class<?> clazz, Object instance);
 
     /**
      * 初始化2 加载配置
      */
-    public void loadConfig() {
-        //todo 读取配置文件的配置
-    }
+    public abstract void loadConfig();
 }

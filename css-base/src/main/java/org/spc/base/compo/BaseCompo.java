@@ -33,7 +33,7 @@ public abstract class BaseCompo {
     /**
      * 动态配置器
      */
-    private IHamamap<String, String> dynamicConfig;
+    private IHamamap<String, String> dynamicConfiger;
 
     //! BaseCompo Functions
 
@@ -42,7 +42,7 @@ public abstract class BaseCompo {
      */
     public void initial(Class<?> clazz, Object instance) {
         loadArtifact(clazz, instance);
-        log.debug("Class: {} Instance: {} ArtifactGroup: {} has loaded", clazz, instance, artifactGroup);
+        log.debug("Class: {} Instance: {} Group: {} has loaded", clazz, instance, artifactGroup);
         //todo
 
     }
