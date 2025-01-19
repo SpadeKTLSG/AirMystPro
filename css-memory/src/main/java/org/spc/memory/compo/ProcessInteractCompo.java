@@ -50,9 +50,8 @@ public class ProcessInteractCompo extends BaseCompo {
         List<Integer> greatmemory = new ArrayList<>();
         // 0: 空闲 1:占用 2:正在使用  3: 系统-> DTO FAT
 
+        //todo 获取linkedList
 
-        //? BrainStorm by SK
-        //1. 确定方法获取途径... ok
 
         //2. 2个区段
         //2.1 一区段, 获取数据, 确定对应状态的块数是多少
@@ -110,26 +109,6 @@ public class ProcessInteractCompo extends BaseCompo {
 
         }
 
-     /*   int systemBlock = 2 * getSystemMemoryUsage(); // 设置系统模块盘块占用内存为2 * 盘块数( 2 * 64B = 128B)
-        for (int i = 0; i < systemBlock; i++) {
-            greatmemory.add(3);
-        }
-
-        for (int i = 0; i < 64 - displayMemory() - systemBlock; i++) {
-            greatmemory.add(1);
-        }
-
-        for (int i = 0; i < displayMemory(); i++) {
-            greatmemory.add(0);
-//            System.out.println("空闲空间:" + displayMemory());
-        }
-
-
-        if (ProcessScheduling.runing != null) {
-            greatmemory.add(2);
-        }
-
-*/
         return greatmemory;
 
     }
