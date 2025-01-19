@@ -9,6 +9,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+/**
+ * 组件基类
+ */
 @Slf4j
 @Service
 public abstract class BaseCompo {

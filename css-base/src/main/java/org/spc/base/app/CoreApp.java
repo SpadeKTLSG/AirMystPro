@@ -7,11 +7,6 @@ import org.springframework.stereotype.Service;
 @Service
 public class CoreApp extends BaseApp {
 
-    public void testLoader() { //todo
-        loadCompo(CoreApp.class, this);
-    }
-
-
     public void initial(Class<?> clazz, Object instance) {
 
     }

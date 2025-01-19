@@ -7,5 +7,18 @@ import org.springframework.stereotype.Service;
 @Service
 public class CoreCompo extends BaseCompo {
 
+    @Override
+    public void initial(Class<?> clazz, Object instance) {
+        super.initial(clazz, instance);
+    }
 
+    @Override
+    public void loadArtifact(Class<?> clazz, Object instance) {
+        super.loadArtifact(clazz, instance);
+    }
+
+    @Override
+    public void loadConfig() {
+        super.loadConfig();
+    }
 }
