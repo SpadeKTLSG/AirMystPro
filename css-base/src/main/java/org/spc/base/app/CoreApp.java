@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 public class CoreApp extends BaseApp {
 
     /**
-     * 具体应用加载器
+     * 具体应用初始化方法
      */
     @Override
     public void initial() {

@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 public class CoreArtifact extends BaseArtifact {
 
     /**
-     * 具体工件加载器
+     * 具体工件初始化方法
      */
     public void initial() {
         Class<?> clazz = this.getClass();

@@ -6,14 +6,26 @@ import org.spc.process.artifact.ProcessListArtifact;
 import org.spc.process.artifact.QueueArtifact;
 import org.springframework.stereotype.Component;
 
-@Component()
+@Component
 @RequiredArgsConstructor
-public class ProcessScheduler extends BaseCompo {
+public class ProcessSchedulerCompo extends BaseCompo {
 
     private ProcessListArtifact processList;
     private QueueArtifact queueArtifact;
-//
-//    public void initialArtifact(Process process) {
-//        processList.setProcessList();
-//    }
+
+    @Override
+    public void initial() {
+
+    }
+
+    @Override
+    public void loadArtifact(Class<?> clazz, Object instance) {
+
+    }
+
+    @Override
+    public void loadConfig() {
+
+    }
+
 }

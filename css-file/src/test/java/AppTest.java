@@ -1,11 +1,4 @@
-import css.out.file.entity.dir;
-import css.out.file.entity.file;
-import css.out.file.enums.ROOT_PATH;
-import org.junit.Test;
-
-import static css.out.file.FileApp.*;
-import static css.out.file.entiset.GF.*;
-import static css.out.file.handleB.HandleFile.str2Path;
+import org.junit.jupiter.api.Test;
 
 public class AppTest {
 

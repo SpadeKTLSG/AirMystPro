@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 public class CoreCompo extends BaseCompo {
 
     /**
-     * 具体组件加载器
+     * 具体组件初始化方法
      */
     @Override
     public void initial() {
