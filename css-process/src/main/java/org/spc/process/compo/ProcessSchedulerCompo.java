@@ -57,12 +57,12 @@ public class ProcessSchedulerCompo extends BaseCompo {
     @Transactional
     public void getReadyToRun() throws InterruptedException {
 
-        Process first = readyQueueArtifact.getArrayBlockingQueue().take(); //从就绪队列中取出一个进程
-        runningProcessArtifact.setRunningProcess(first); //标记为正在运行的进程
+        Process process = readyQueueArtifact.getArrayBlockingQueue().take(); //从就绪队列中取出一个进程
+        runningProcessArtifact.setRunningProcess(process); //标记为正在运行的进程
 
-        first.getPcb().setState(1);//设置进程状态为运行态
-        synchronized (first) {
-            first.notifyAll(); //唤醒进程
+        process.getPcb().setState(1);//设置进程状态为运行态
+        synchronized (process) {
+            process.notifyAll(); //唤醒进程
         }
     }
 

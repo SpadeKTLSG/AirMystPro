@@ -5,6 +5,7 @@ import org.spc.base.app.BaseApp;
 import org.spc.base.app.CoreApp;
 import org.spc.base.common.util.AppLoader;
 import org.spc.base.config.FeignConfig;
+import org.spc.memory.app.RAMApp;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.openfeign.EnableFeignClients;
@@ -25,7 +26,8 @@ public class MemoryApplication {
 
         // 登记应用
         List<Class<? extends BaseApp>> baseAppClazzList = List.of(
-                CoreApp.class
+                CoreApp.class,
+                RAMApp.class
         );
 
         // 加载应用

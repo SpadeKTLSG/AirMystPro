@@ -3,11 +3,15 @@ package org.spc.process.app;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.spc.base.app.BaseApp;
+import org.spc.base.common.constant.ProcessCT;
 import org.spc.process.compo.IOHandlerCompo;
+import org.spc.process.compo.ProcessRunnerCompo;
 import org.spc.process.compo.ProcessSchedulerCompo;
+import org.spc.process.compo.ProcessWorkCompo;
+import org.spc.process.entity.Process;
+import org.spc.process.entity.struct.Pcb;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
 
@@ -18,10 +22,17 @@ import java.io.IOException;
 public class CPUApp extends BaseApp {
 
     @Autowired
-    ProcessSchedulerCompo processScheduling;
+    ProcessSchedulerCompo processSchedulerCompo;
+
+    @Autowired
+    ProcessRunnerCompo processRunnerCompo;
+
+    @Autowired
+    ProcessWorkCompo processWorkCompo;
 
     @Autowired
     IOHandlerCompo ioHandlerCompo;
+
 
     //? Default Methods
 
@@ -31,6 +42,12 @@ public class CPUApp extends BaseApp {
         Object instance = this;
         super.initial(clazz, instance);
 
+        //通电
+        try {
+            this.power();
+        } catch (IOException | InterruptedException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
@@ -43,17 +60,26 @@ public class CPUApp extends BaseApp {
 
     }
 
+
     //! Flow
 
     /**
      * CPU 运行任务(线程)
      */
-    @Transactional
-    public void CPU() throws IOException, InterruptedException {
+
+    public void power() throws IOException, InterruptedException {
+        Process process = new Process(false, new Pcb());
 
 
-        synchronized (this) { //模拟单线程CPU
+        synchronized (this) { //单线程CPU, 单个线程对象
 
+            for (int i = 0; i < ProcessCT.CPU_POWER; i++) {
+                //如果当前没有正在运行的进程, 则从就绪队列中取出一个进程运行
+                if (processSchedulerCompo.getRunningProcessArtifact().getRunningProcess() == null) {
+                    processSchedulerCompo.getReadyToRun();
+                }
+                processWorkCompo.run(process);
+            }
 
         }
     }

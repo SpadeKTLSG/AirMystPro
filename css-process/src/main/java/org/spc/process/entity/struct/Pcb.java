@@ -44,7 +44,7 @@ public class Pcb {
     private String blockReason;
 
 
-    Pcb() {
+    public Pcb() {
         this.pcbId = ProcessCT.PID.getAndIncrement(); //获取原子进程标识符
         this.state = 0;
         register = new HashMap<>();

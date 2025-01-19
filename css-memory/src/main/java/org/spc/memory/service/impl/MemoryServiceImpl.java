@@ -4,7 +4,6 @@ package org.spc.memory.service.impl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.spc.memory.entity.MemoryBlock;
-import org.spc.memory.service.MemoryService;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -17,7 +16,7 @@ import java.util.List;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class MemoryServiceImpl implements MemoryService {
+public class MemoryServiceImpl {
 
     /**
      * 内存块

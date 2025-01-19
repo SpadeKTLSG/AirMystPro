@@ -13,4 +13,9 @@ public interface ProcessCT {
      * 默认队列长度
      */
     int Queue_LENGTH_DEFAULT = 10;
+
+    /**
+     * CPU 电量 (运行时间)
+     */
+    int CPU_POWER = 114514;
 }

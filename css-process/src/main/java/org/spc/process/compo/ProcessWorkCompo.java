@@ -1,14 +1,16 @@
-package org.spc.process.artifact;
+package org.spc.process.compo;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.extern.slf4j.Slf4j;
-import org.spc.base.artifact.BaseArtifact;
 import org.spc.base.client.MemoryClient;
-import org.spc.process.compo.ProcessRunnerCompo;
+import org.spc.base.compo.BaseCompo;
+import org.spc.process.artifact.ProcessListArtifact;
+import org.spc.process.artifact.ReadyQueueArtifact;
 import org.spc.process.entity.Process;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
 
@@ -19,17 +21,23 @@ import java.io.IOException;
 @Service
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class ProcessWorkArtifact extends BaseArtifact {
+public class ProcessWorkCompo extends BaseCompo {
 
     @Autowired
     MemoryClient memoryClient;
 
     @Autowired
     ProcessRunnerCompo processRunnerCompo;
+
+    //? Artifacts
+
     @Autowired
     ReadyQueueArtifact readyQueueArtifact;
+
     @Autowired
     ProcessListArtifact processListArtifact;
+
+    //? Default Methods
 
     @Override
     public void initial() {
@@ -39,16 +47,21 @@ public class ProcessWorkArtifact extends BaseArtifact {
     }
 
     @Override
+    public void loadArtifact(Class<?> clazz, Object instance) {
+
+    }
+
+    @Override
     public void loadConfig() {
 
     }
 
 
     /**
-     * 进程本身操作
+     * 进程本身运行
      */
+    @Transactional
     public void run(Process process) throws InterruptedException, IOException {
-
         synchronized (this) {
             readyQueueArtifact.getArrayBlockingQueue().add(process); //登记就绪队列
             processListArtifact.getProcessList().put(process.getPcb().getPcbId(), process); //登记进程链表
