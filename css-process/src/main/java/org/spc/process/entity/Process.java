@@ -5,6 +5,9 @@ import lombok.Data;
 import lombok.experimental.Accessors;
 import org.spc.process.entity.struct.Pcb;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+
 /**
  * 进程实体
  */
@@ -15,11 +18,18 @@ import org.spc.process.entity.struct.Pcb;
 public class Process {
 
     /**
+     * 文件读取
+     */
+    public FileReader file;
+    /**
+     * 文件读取
+     */
+    public BufferedReader bufferedReader;
+    /**
      * 是否停止
      * volatile 保证可见性
      */
     private volatile boolean stop;
-
     /**
      * 进程控制块
      */

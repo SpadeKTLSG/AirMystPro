@@ -9,6 +9,8 @@ import org.spc.process.entity.Process;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
+
 /**
  * 进程(本身)执行工件
  */
@@ -41,7 +43,7 @@ public class ProcessWorkArtifact extends BaseArtifact {
     /**
      * 进程本身操作
      */
-    public void run(Process process) throws InterruptedException {
+    public void run(Process process) throws InterruptedException, IOException {
 
         synchronized (this) {
             readyQueueArtifact.getArrayBlockingQueue().add(process); //登记就绪队列
