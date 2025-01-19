@@ -1,8 +1,9 @@
-package org.spc.base.sys.loader.impl;
+package org.spc.base.sys.load.impl;
 
 import lombok.extern.slf4j.Slf4j;
 import org.spc.base.artifact.BaseArtifact;
-import org.spc.base.sys.loader.Loader;
+import org.spc.base.sys.load.Loader;
+import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 
 import java.lang.reflect.Field;
@@ -16,6 +17,7 @@ public class ArtifactLoader implements Loader<BaseArtifact> {
 
 
     @Override
+    @Bean
     public List<BaseArtifact> load(Class<?> clazz, Object instance) {
         List<BaseArtifact> artifactGroup = new ArrayList<>();
 

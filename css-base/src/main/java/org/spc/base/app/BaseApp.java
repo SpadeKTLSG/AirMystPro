@@ -4,7 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.spc.api.IHamamap;
 import org.spc.base.compo.BaseCompo;
 import org.spc.base.compo.CoreCompo;
-import org.spc.base.sys.loader.impl.CompoLoader;
+import org.spc.base.sys.load.impl.CompoLoader;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,23 +22,23 @@ public abstract class BaseApp {
      * 组件加载器
      */
     @Autowired
-    private CompoLoader compoLoader;
+    CompoLoader compoLoader;
 
     /**
      * 组件组
      */
     @Autowired
-    private List<BaseCompo> compoGroup;
+    List<BaseCompo> compoGroup;
     /**
      * 核心组件
      */
     @Autowired
-    private CoreCompo coreCompo;
+    CoreCompo coreCompo;
     /**
      * 动态配置器
      */
     @Autowired
-    private IHamamap<String, String> dynamicConfiger;
+    IHamamap<String, String> dynamicConfiger;
 
 
     //! BaseApp Functions
@@ -51,6 +51,11 @@ public abstract class BaseApp {
         loadCompo(clazz, instance);
         loadConfig();
     }
+
+    /**
+     * 初始化0 子类实现
+     */
+    public abstract void initial();
 
     /**
      * 初始化1 加载组件

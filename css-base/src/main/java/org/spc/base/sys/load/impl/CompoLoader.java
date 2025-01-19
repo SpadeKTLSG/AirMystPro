@@ -1,8 +1,8 @@
-package org.spc.base.sys.loader.impl;
+package org.spc.base.sys.load.impl;
 
 import lombok.extern.slf4j.Slf4j;
 import org.spc.base.compo.BaseCompo;
-import org.spc.base.sys.loader.Loader;
+import org.spc.base.sys.load.Loader;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 
@@ -43,7 +43,7 @@ public class CompoLoader implements Loader<BaseCompo> {
                     }
                 });
         // 组件加载工件
-        compoGroup.forEach(compo -> compo.initial(compo.getClass(), compo));
+        compoGroup.forEach(BaseCompo::initial);
 
         return compoGroup;
     }
