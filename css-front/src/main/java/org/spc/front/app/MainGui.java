@@ -33,6 +33,8 @@ import java.util.concurrent.ConcurrentHashMap;
 @Service
 public class MainGui {
 
+
+    //核心组件
     private final JFrame Mframe;
     private final JPanel ramPanel;
     private final Color[] ram;
@@ -48,6 +50,7 @@ public class MainGui {
     MemoryClient memoryClient;
     @Autowired
     DeviceClient deviceClient;
+
 
     /**
      * 构造方法中进行界面的初始化

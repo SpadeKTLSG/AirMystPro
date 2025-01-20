@@ -23,6 +23,7 @@ public class ProcessApplication {
         SpringApplication.run(ProcessApplication.class, args);
         log.debug("ProcessService Started...");
 
+
         // 登记应用
         List<Class<? extends BaseApp>> baseAppClazzList = List.of(
                 CoreApp.class,

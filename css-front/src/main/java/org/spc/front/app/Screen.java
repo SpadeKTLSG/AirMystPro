@@ -10,6 +10,8 @@ import java.io.IOException;
 
 /**
  * 显示屏前端应用
+ *
+ * @note 由于前端太老太屎山了, 不改swing代码了
  */
 @Slf4j
 @Service
