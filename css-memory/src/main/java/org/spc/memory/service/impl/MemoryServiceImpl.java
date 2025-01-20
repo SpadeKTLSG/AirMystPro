@@ -116,23 +116,5 @@ public class MemoryServiceImpl {
     }
 
 
-    /**
-     * 释放结束进程的内存
-     *
-     * @param processId 进程ID
-     */
-    public static void releaseMemory(int processId) {
-
-        for (int i = 0; i < 8; i++) {
-            for (int j = 0; j < 8; j++) {
-                if (cleanblock[i][j] == processId) {
-                    memory[i][j].setContent("---");
-                    cleanblock[i][j] = -1;
-                }
-            }
-        }
-    }
-
-
 }
 
