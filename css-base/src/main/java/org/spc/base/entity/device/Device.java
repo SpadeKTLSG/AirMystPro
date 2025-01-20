@@ -1,8 +1,9 @@
-package org.spc.device.entity;
+package org.spc.base.entity.device;
 
 
-import css.core.process.Pcb;
 import lombok.extern.slf4j.Slf4j;
+import org.spc.base.entity.device.struct.ProcessDeviceUse;
+import org.spc.base.entity.process.struct.Pcb;
 
 import java.util.concurrent.ArrayBlockingQueue;
 

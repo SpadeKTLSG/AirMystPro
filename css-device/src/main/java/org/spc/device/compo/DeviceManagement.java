@@ -1,5 +1,6 @@
-package org.spc.device.entity;
+package org.spc.device.compo;
 
+import org.spc.base.entity.device.Device;
 import org.springframework.stereotype.Component;
 
 import java.util.HashMap;

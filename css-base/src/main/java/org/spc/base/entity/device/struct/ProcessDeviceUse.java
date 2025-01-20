@@ -1,4 +1,4 @@
-package org.spc.device.entity;
+package org.spc.base.entity.device.struct;
 
 /**
  * 进程 - 设备使用
