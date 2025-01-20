@@ -1,8 +1,15 @@
 package org.spc.base.entity.device.struct;
 
+import lombok.Builder;
+import lombok.Data;
+import lombok.experimental.Accessors;
+
 /**
  * 进程 - 设备使用
  */
+@Data
+@Builder
+@Accessors(chain = true)
 public class ProcessDeviceUse {
 
 

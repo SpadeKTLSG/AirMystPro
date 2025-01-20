@@ -1,7 +1,9 @@
 package org.spc.base.entity.device;
 
 
-import lombok.extern.slf4j.Slf4j;
+import lombok.Builder;
+import lombok.Data;
+import lombok.experimental.Accessors;
 import org.spc.base.entity.device.struct.ProcessDeviceUse;
 import org.spc.base.entity.process.struct.Pcb;
 
@@ -10,7 +12,9 @@ import java.util.concurrent.ArrayBlockingQueue;
 /**
  * 设备类
  */
-@Slf4j
+@Data
+@Builder
+@Accessors(chain = true)
 public class Device {
 
 
@@ -25,13 +29,12 @@ public class Device {
     public Pcb nowProcessPcb = null;
 
     /**
-     * 设备阻塞队列
+     * 设备上的阻塞队列
      */
     public ArrayBlockingQueue<ProcessDeviceUse> arrayBlockingQueue = new ArrayBlockingQueue<ProcessDeviceUse>(10);
 
     public Device(String name) {
         this.name = name;
-        deviceManagement.devices.put(name, this);
     }
 
 }
