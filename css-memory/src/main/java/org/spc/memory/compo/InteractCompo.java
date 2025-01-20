@@ -85,16 +85,17 @@ public class InteractCompo extends BaseCompo {
 
         //进程链表遍历
         processList.forEach((k, v) -> {
-            //todo switch
-            if (v.getPcb().getState() == 2) { //2代表阻塞
-                blockList.add(String.valueOf(v.getPcb().getPcbId()));
-            } else if (v.getPcb().getState() == 0) { //0代表就绪
-                readyList.add(String.valueOf(v.getPcb().getPcbId()));
+            int state = v.getPcb().getState();
+            String idName = String.valueOf(v.getPcb().getPcbId());
+
+            switch (state) {
+                case 2 -> blockList.add(idName); // 2代表阻塞
+                case 0 -> readyList.add(idName); // 0代表就绪
             }
         });
 
-        
-        boolean running_flag = ProcessScheduling.runing != null; //运行判断
+        Process process = processClient.getRunningProcess();
+        boolean running_flag = process != null; //运行判断
 
         //正在运行 = 当前指令 = 如果有就+1
 

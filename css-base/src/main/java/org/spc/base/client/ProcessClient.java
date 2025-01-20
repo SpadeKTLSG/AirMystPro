@@ -15,4 +15,9 @@ public interface ProcessClient {
     @GetMapping("/process/getProcessList/")
     ConcurrentHashMap<Integer, Process> getProcessList();
 
+    /**
+     * 获得正在运行的进程
+     */
+    @GetMapping("/process/getRunningProcess/")
+    Process getRunningProcess();
 }
