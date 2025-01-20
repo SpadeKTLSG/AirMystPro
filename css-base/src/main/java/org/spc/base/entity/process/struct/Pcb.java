@@ -1,4 +1,4 @@
-package org.spc.process.entity.struct;
+package org.spc.base.entity.process.struct;
 
 
 import lombok.Builder;

@@ -9,6 +9,9 @@ import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 
+/**
+ * RAM内存应用
+ */
 @Service
 @Data
 @EqualsAndHashCode(callSuper = true)

@@ -3,11 +3,15 @@ package org.spc.memory.compo;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.extern.slf4j.Slf4j;
+import org.spc.base.client.ProcessClient;
 import org.spc.base.compo.BaseCompo;
+import org.spc.base.entity.process.Process;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * 交互组件
@@ -18,6 +22,11 @@ import java.util.List;
 @EqualsAndHashCode(callSuper = true)
 public class InteractCompo extends BaseCompo {
 
+    @Autowired
+    ProcessClient processClient;
+
+    @Autowired
+    MemoryDisplayCompo memoryDisplayCompo;
 
     //? Artifacts
 
@@ -50,8 +59,6 @@ public class InteractCompo extends BaseCompo {
         List<Integer> greatmemory = new ArrayList<>();
         // 0: 空闲 1:占用 2:正在使用  3: 系统-> DTO FAT
 
-        //todo 获取linkedList
-
 
         //2. 2个区段
         //2.1 一区段, 获取数据, 确定对应状态的块数是多少
@@ -74,15 +81,19 @@ public class InteractCompo extends BaseCompo {
         List<String> blockList = new ArrayList<>(10); // 阻塞队列
         List<String> readyList = new ArrayList<>(10); // 就绪队列
 
+        ConcurrentHashMap<Integer, Process> processList = processClient.getProcessList();
+
         //进程链表遍历
-        linkedList.forEach((k, v) -> {
-            if (v.pcb.state == 2) { //2代表阻塞
-                blockList.add(String.valueOf(v.pcb.pcbId));
-            } else if (v.pcb.state == 0) { //0代表就绪
-                readyList.add(String.valueOf(v.pcb.pcbId));
+        processList.forEach((k, v) -> {
+            //todo switch
+            if (v.getPcb().getState() == 2) { //2代表阻塞
+                blockList.add(String.valueOf(v.getPcb().getPcbId()));
+            } else if (v.getPcb().getState() == 0) { //0代表就绪
+                readyList.add(String.valueOf(v.getPcb().getPcbId()));
             }
         });
 
+        
         boolean running_flag = ProcessScheduling.runing != null; //运行判断
 
         //正在运行 = 当前指令 = 如果有就+1
@@ -90,17 +101,17 @@ public class InteractCompo extends BaseCompo {
         //二区段
         for (int i = 0; i < 64; i++) {
 
-            if (i < getSystemMemoryUsage() * 2) { // 系统模块占用内存 *2
+            if (i < memoryDisplayCompo.getSysMemoryUsage() * 2) { // 系统模块占用内存 *2
                 greatmemory.add(3);
                 continue;
             }
 
-            if (i < getSystemMemoryUsage() * 2 + blockList.size() + readyList.size()) { //普通占用内存 占用 = 就绪 + 阻塞
+            if (i < memoryDisplayCompo.getSysMemoryUsage() * 2 + blockList.size() + readyList.size()) { //普通占用内存 占用 = 就绪 + 阻塞
                 greatmemory.add(1);
                 continue;
             }
 
-            if (running_flag && i == getSystemMemoryUsage() * 2 + blockList.size() + readyList.size()) { //正在运行
+            if (running_flag && i == memoryDisplayCompo.getSysMemoryUsage() * 2 + blockList.size() + readyList.size()) { //正在运行
                 greatmemory.add(2);
                 continue;
             }

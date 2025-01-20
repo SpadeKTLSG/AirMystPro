@@ -1,9 +1,9 @@
-package org.spc.process.entity;
+package org.spc.base.entity.process;
 
 import lombok.Builder;
 import lombok.Data;
 import lombok.experimental.Accessors;
-import org.spc.process.entity.struct.Pcb;
+import org.spc.base.entity.process.struct.Pcb;
 
 import java.io.BufferedReader;
 import java.io.FileReader;

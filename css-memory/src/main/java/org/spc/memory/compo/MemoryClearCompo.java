@@ -5,9 +5,9 @@ import lombok.EqualsAndHashCode;
 import lombok.extern.slf4j.Slf4j;
 import org.spc.base.common.constant.MemoryCT;
 import org.spc.base.compo.BaseCompo;
+import org.spc.base.entity.memory.MemoryBlock;
 import org.spc.memory.artifact.MemoryByPrHolderArtifact;
 import org.spc.memory.artifact.MemoryLoadArtifact;
-import org.spc.memory.entity.MemoryBlock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -57,6 +57,7 @@ public class MemoryClearCompo extends BaseCompo {
     public void releaseMemory(int processId) {
         int[][] relateblock = memoryByPrHolderArtifact.getRelateblock();
         MemoryBlock[][] memoryBlock = memoryLoadArtifact.getMemory();
+
         for (int i = 0; i < MemoryCT.BLOCK_LENGTH; i++) {
             for (int j = 0; j < MemoryCT.BLOCK_LENGTH; j++) {
                 if (relateblock[i][j] == processId) {

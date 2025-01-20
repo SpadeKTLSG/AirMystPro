@@ -6,8 +6,8 @@ import lombok.EqualsAndHashCode;
 import lombok.extern.slf4j.Slf4j;
 import org.spc.base.client.MemoryClient;
 import org.spc.base.compo.BaseCompo;
-import org.spc.process.entity.Process;
-import org.spc.process.entity.struct.Pcb;
+import org.spc.base.entity.process.Process;
+import org.spc.base.entity.process.struct.Pcb;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

@@ -7,10 +7,15 @@ import org.springframework.web.bind.annotation.PostMapping;
 @FeignClient(name = "memory", url = "http://localhost:11484")
 public interface MemoryClient {
 
-
+    /**
+     * 释放内存
+     */
     @PostMapping("/memory/{pcbId}")
     void releaseMemory(@PathVariable int pcbId);
 
+    /**
+     * 分配内存
+     */
     @PostMapping("/memory/{pcbId}/{s}")
     void allocateMemory(@PathVariable int pcbId, @PathVariable String s);
 }

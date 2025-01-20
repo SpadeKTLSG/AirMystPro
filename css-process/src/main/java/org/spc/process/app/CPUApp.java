@@ -4,18 +4,20 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.spc.base.app.BaseApp;
 import org.spc.base.common.constant.ProcessCT;
+import org.spc.base.entity.process.Process;
+import org.spc.base.entity.process.struct.Pcb;
 import org.spc.process.compo.IOHandlerCompo;
 import org.spc.process.compo.ProcessRunnerCompo;
 import org.spc.process.compo.ProcessSchedulerCompo;
 import org.spc.process.compo.ProcessWorkCompo;
-import org.spc.process.entity.Process;
-import org.spc.process.entity.struct.Pcb;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 
-
+/**
+ * CPU进程应用
+ */
 @Service
 @Data
 @EqualsAndHashCode(callSuper = true)

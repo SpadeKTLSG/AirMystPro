@@ -1,4 +1,4 @@
-package org.spc.memory.entity;
+package org.spc.base.entity.memory;
 
 import lombok.Data;
 

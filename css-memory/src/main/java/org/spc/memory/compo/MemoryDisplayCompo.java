@@ -48,6 +48,9 @@ public class MemoryDisplayCompo extends BaseCompo {
 
     //! Func
 
+    /**
+     * 获取系统内存使用情况
+     */
     public int getSysMemoryUsage() {
         //系统内存 = 磁盘大小 + 系统分配
         List<Integer> usage = fileClient.queryBlockStatus(); //从文件模块获取占用表
@@ -60,26 +63,6 @@ public class MemoryDisplayCompo extends BaseCompo {
         });
 
         return temp.size();
-    }
-
-    /**
-     * 显示内存状态
-     */
-    public void displayMemory() {
-        int status = 0;
-
-        //显示内存的当前状态
-//        System.out.println("Memory Status:");
-        for (int i = 0; i < 8; i++) {
-            for (int j = 0; j < 8; j++) {
-//                System.out.print(memory[i][j].getContent() + " ");
-                if (memory[i][j].getContent().equals("---")) {
-                    status++;
-                }
-            }
-//            System.out.println();
-
-        }
     }
 
 

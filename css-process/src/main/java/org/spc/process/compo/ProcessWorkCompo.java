@@ -5,9 +5,9 @@ import lombok.EqualsAndHashCode;
 import lombok.extern.slf4j.Slf4j;
 import org.spc.base.client.MemoryClient;
 import org.spc.base.compo.BaseCompo;
+import org.spc.base.entity.process.Process;
 import org.spc.process.artifact.ProcessListArtifact;
 import org.spc.process.artifact.ReadyQueueArtifact;
-import org.spc.process.entity.Process;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -72,7 +72,6 @@ public class ProcessWorkCompo extends BaseCompo {
             processRunnerCompo.runProcess(process);
         }
 
-        //清理内存
         memoryClient.releaseMemory(process.getPcb().getPcbId());
     }
 
