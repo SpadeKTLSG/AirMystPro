@@ -6,9 +6,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.spc.memory.entity.MemoryBlock;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-
 
 /**
  * 内存管理器
@@ -80,6 +77,7 @@ public class MemoryServiceImpl {
         }
     }
 
+
     /**
      * 查找连续块
      *
@@ -98,6 +96,7 @@ public class MemoryServiceImpl {
         log.warn("内存不足，无法分配连续块");
         return null;
     }
+
 
     /**
      * 检查连续块是否可用
@@ -134,48 +133,6 @@ public class MemoryServiceImpl {
         }
     }
 
-
-    /**
-     * 显示内存状态
-     */
-    public static void displayMemory() {
-        int status = 0;
-
-        //显示内存的当前状态
-//        System.out.println("Memory Status:");
-        for (int i = 0; i < 8; i++) {
-            for (int j = 0; j < 8; j++) {
-//                System.out.print(memory[i][j].getContent() + " ");
-                if (memory[i][j].getContent().equals("---")) {
-                    status++;
-                }
-            }
-//            System.out.println();
-
-        }
-        // ? SK 暂时停止调用展示, 调试结束
-//        System.out.println("空闲空间:"+status);
-//        return status; //返回空闲空间
-    }
-
-    /**
-     * 获取系统内存使用情况
-     *
-     * @return 系统内存使用情况
-     */
-    public static int getSystemMemoryUsage() {
-
-        //系统内存 = 磁盘大小 + 系统分配
-        List<Integer> usage = giveBlockStatus2Front(); //从文件模块获取占用表
-
-        List<Integer> temp = new ArrayList<>(); //查表, 找到系统占用大小
-
-        for (Integer e : usage)
-            if (e == 3)
-                temp.add(e);
-
-        return temp.size();
-    }
 
 }
 

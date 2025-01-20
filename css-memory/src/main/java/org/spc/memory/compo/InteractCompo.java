@@ -10,13 +10,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 内存与进程交互组件
+ * 交互组件
  */
 @Slf4j
 @Service
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class ProcessInteractCompo extends BaseCompo {
+public class InteractCompo extends BaseCompo {
 
 
     //? Artifacts
