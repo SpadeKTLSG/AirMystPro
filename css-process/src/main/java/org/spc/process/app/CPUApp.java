@@ -6,10 +6,7 @@ import org.spc.base.app.BaseApp;
 import org.spc.base.common.constant.ProcessCT;
 import org.spc.base.entity.process.Process;
 import org.spc.base.entity.process.struct.Pcb;
-import org.spc.process.compo.IOHandlerCompo;
-import org.spc.process.compo.ProcessRunnerCompo;
-import org.spc.process.compo.ProcessSchedulerCompo;
-import org.spc.process.compo.ProcessWorkCompo;
+import org.spc.process.compo.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,6 +19,11 @@ import java.io.IOException;
 @Data
 @EqualsAndHashCode(callSuper = true)
 public class CPUApp extends BaseApp {
+
+    //All Compos
+
+    @Autowired
+    CommandExcuteCompo commandExcuteCompo;
 
     @Autowired
     ProcessSchedulerCompo processSchedulerCompo;

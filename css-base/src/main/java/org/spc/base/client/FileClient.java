@@ -9,6 +9,6 @@ import java.util.List;
 public interface FileClient {
 
     @GetMapping("/file/get/blockStatus")
-    List<Integer> queryBlockStatus();
+    List<Integer> queryBlockStatus(); //todo
 
 }

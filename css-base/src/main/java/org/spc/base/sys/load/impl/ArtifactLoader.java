@@ -32,7 +32,7 @@ public class ArtifactLoader implements Loader<BaseArtifact> {
                             artifactGroup.add(artifact);
                         }
                     } catch (IllegalAccessException e) {
-                        log.error("load error", e); //todo polish!
+                        log.error("load error", e);
                     }
                 });
         artifactGroup.forEach(BaseArtifact::initial);

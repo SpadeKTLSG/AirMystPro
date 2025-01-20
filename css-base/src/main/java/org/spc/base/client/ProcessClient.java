@@ -3,6 +3,8 @@ package org.spc.base.client;
 import org.spc.base.entity.process.Process;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -20,4 +22,10 @@ public interface ProcessClient {
      */
     @GetMapping("/process/getRunningProcess/")
     Process getRunningProcess();
+
+    /**
+     * 执行命令
+     */
+    @PostMapping("/process/commandExecution/{order}")
+    void commandExecution(@PathVariable String order);
 }

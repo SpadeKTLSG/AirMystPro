@@ -1,39 +1,21 @@
-package org.spc.memory.app;
+package org.spc.front.app;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.extern.slf4j.Slf4j;
 import org.spc.base.app.BaseApp;
-import org.spc.memory.compo.*;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 
 /**
- * RAM内存应用
+ * 显示屏前端应用
  */
+@Slf4j
 @Service
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class RAMApp extends BaseApp {
-
-    //All Compos
-
-    @Autowired
-    InteractCompo interactCompo;
-
-    @Autowired
-    MemoryDisplayCompo memoryDisplayCompo;
-
-    @Autowired
-    MemoryUseCompo memoryUseCompo;
-
-    @Autowired
-    MemoryCheckerCompo memoryCheckerCompo;
-
-    @Autowired
-    MemoryClearCompo memoryClearCompo;
-
+public class Screen extends BaseApp {
 
     //? Default Methods
 
@@ -64,9 +46,15 @@ public class RAMApp extends BaseApp {
     //! Flow
 
     /**
-     * RAM 运行
+     * Screen 显示屏前端展示
      */
+
     public void power() throws IOException, InterruptedException {
-        //内存不需要主动保持运行, 核心在CPU那里
+
+        javax.swing.SwingUtilities.invokeLater(() -> {
+            MainGui gui = new MainGui();
+            gui.showGUI();
+        });
     }
+
 }

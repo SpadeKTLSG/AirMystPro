@@ -39,7 +39,7 @@ public class CompoLoader implements Loader<BaseCompo> {
                             compoGroup.add(compo);
                         }
                     } catch (IllegalAccessException e) {
-                        log.error("load error", e); //todo polish!
+                        log.error("load error", e);
                     }
                 });
         // 组件加载工件
