@@ -3,9 +3,9 @@ package org.spc.file.special;
 
 import lombok.extern.slf4j.Slf4j;
 import org.spc.base.entity.file.struct.node;
+import org.spc.file.compo.HandleFileCompo;
 import org.springframework.beans.factory.annotation.Autowired;
-
-import static org.spc.base.common.util.FileUtil.getName;
+import org.springframework.stereotype.Component;
 
 /**
  * 处理树结构的工具类
@@ -13,9 +13,11 @@ import static org.spc.base.common.util.FileUtil.getName;
  * @author SpadeK
  */
 @Slf4j
+@Component
 public abstract class TreeUtil {
 
     @Autowired
+    HandleFileCompo handleFileCompo;
 
     /**
      * 获得树的层数
@@ -23,7 +25,7 @@ public abstract class TreeUtil {
      * @param root 根节点
      * @return 树的层数
      */
-    public static int getTreeDepth(node root) {
+    public int getTreeDepth(node root) {
         return root == null ? 0 : (1 + Math.max(getTreeDepth(root.left), getTreeDepth(root.right)));
     }
 
@@ -36,7 +38,7 @@ public abstract class TreeUtil {
      * @param res         二维数组
      * @param treeDepth   树的深度
      */
-    private static void writeArray(node currNode, int rowIndex, int columnIndex, String[][] res, int treeDepth) {
+    private void writeArray(node currNode, int rowIndex, int columnIndex, String[][] res, int treeDepth) {
 
         if (currNode == null) return;
         // 先将当前节点保存到二维数组中
@@ -68,14 +70,14 @@ public abstract class TreeUtil {
      * @param indent 初始符号
      * @return 树结构
      */
-    public static String printTree(node root, String indent) {
+    public String printTree(node root, String indent) {
         if (root == null) {
             return "";
         }
 
         // 添加当前节点的信息
 
-        return indent + getName(root.fcb) + root.fcb.getExtendName() + "\n" +
+        return indent + handleFileCompo.getFileArtifact().getName(root.fcb) + root.fcb.getExtendName() + "\n" +
 
                 // 递归添加左子树（孩子）的信息
                 printTree(root.left, indent + "\t") +
@@ -90,7 +92,7 @@ public abstract class TreeUtil {
      * @param root 根节点
      */
     @Deprecated
-    public static String showGreatTree(node root) {
+    public String showGreatTree(node root) {
         log.debug("美观展示文件系统树形结构: ");
         if (root == null) log.warn("纳尼? 情报是假的?");
         int treeDepth = getTreeDepth(root);

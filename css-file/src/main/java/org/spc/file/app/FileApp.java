@@ -42,7 +42,7 @@ public class FileApp extends BaseApp {
         log.debug("文件模块开机中...");
         // Spring IOC
         log.debug("文件模块成员初始化完成");
-        normalRebootFile();
+        fileSyS.normalRebootFile();
         log.debug("文件模块重读完成");
         diskSyS.getHandleDiskCompo().mountDefaultDir2BLOCKS();
         log.debug("系统默认目录挂载完成");
@@ -86,7 +86,7 @@ public class FileApp extends BaseApp {
      * @param A 文件/文件夹对象
      */
     public void addContent(Object A) {
-        addContentFS(A);
+        fileSyS.addContentFS(A);
         diskSyS.addContentDS(A);
     }
 
@@ -99,7 +99,7 @@ public class FileApp extends BaseApp {
      * @param A 文件/文件夹对象
      */
     public void deleteContent(Object A) {
-        deleteContentFS(A);
+        fileSyS.deleteContentFS(A);
         diskSyS.deleteContentDS(A);
 
     }
@@ -114,7 +114,7 @@ public class FileApp extends BaseApp {
      * @param B 修改后的对象
      */
     public void alterContent(Object A, Object B) {
-        alterContentFS(A, B);
+        fileSyS.alterContentFS(A, B);
         diskSyS.alterContentDS(A, B);
     }
 
@@ -126,7 +126,7 @@ public class FileApp extends BaseApp {
      */
     public Object selectContent(Object A) {
 
-        return selectContentFS(A);
+        return fileSyS.selectContentFS(A);
         //selectContentDS(A); //无需关注底层磁盘实现
     }
 
@@ -134,7 +134,7 @@ public class FileApp extends BaseApp {
     //清理回收站
     public void cleanRecycleBin() {
         //删除/boot下的所有树节点文件, 但是不回收盘块(模拟电脑被垃圾堆满的效果)
-        cleanRebootFile();
+        fileSyS.cleanRebootFile();
     }
 
     @Override
@@ -184,7 +184,7 @@ public class FileApp extends BaseApp {
         log.info("刷新中...正在重新从磁盘加载系统内容");
         diskSyS.normalRebootDisk();
         log.info("刷新中...正在重建文件系统索引");
-        normalRebootFile();
+        fileSyS.normalRebootFile();
     }
 
 
@@ -225,9 +225,9 @@ public class FileApp extends BaseApp {
      */
     public void coverDiskRoboot() {
         diskSyS.coverRebootDisk();
-        coverRebootFile();
+        fileSyS.coverRebootFile();
         //这边必须要重建索引, 否则文件系统就真的"DOWN"了
-        normalRebootFile();
+        fileSyS.normalRebootFile();
         diskSyS.getHandleDiskCompo().mountDefaultDir2BLOCKS();
     }
 
@@ -236,9 +236,9 @@ public class FileApp extends BaseApp {
      */
     public void kickDiskRoboot() {
         diskSyS.cleanRebootDisk();
-        cleanRebootFile();
+        fileSyS.cleanRebootFile();
         //这边必须要重建索引, 否则文件系统就真的"DOWN"了
-        normalRebootFile();
+        fileSyS.normalRebootFile();
         diskSyS.getHandleDiskCompo().mountDefaultDir2BLOCKS();
     }
 

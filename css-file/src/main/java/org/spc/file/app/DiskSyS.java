@@ -10,6 +10,7 @@ import org.spc.base.entity.file.disk;
 import org.spc.base.entity.file.file;
 import org.spc.base.entity.file.struct.block;
 import org.spc.file.compo.HandleDiskCompo;
+import org.spc.file.compo.HandleFileCompo;
 import org.spc.file.special.TXTUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -42,11 +43,17 @@ public class DiskSyS extends BaseApp {
     @Autowired
     DiskSyS diskSyS;
 
+    @Autowired
+    FileSyS fileSyS;
+
 
     //All Compos
 
     @Autowired
     HandleDiskCompo handleDiskCompo;
+
+    @Autowired
+    HandleFileCompo handleFileCompo;
 
 
     //? Default Methods
@@ -143,10 +150,9 @@ public class DiskSyS extends BaseApp {
         //0. 合法性校验
         //0.1 长度校验
         if (A instanceof file file_temp) {
-            if (getFileLength(file_temp) > BLOCK_SIZE) {
+            if (handleFileCompo.getFileArtifact().getFileLength(file_temp) > BLOCK_SIZE) {
                 log.warn("文件{}过大, 无法保存", file_temp.fcb.getPathName());
                 throw new FailedException("文件过大, 无法保存");
-                return;
             }
         }
 
@@ -159,7 +165,6 @@ public class DiskSyS extends BaseApp {
         if (inputPos == -1) {
             log.warn("系统磁盘爆炸咯!");
             throw new FailedException("系统磁盘被撑爆了, Behave yourself!");
-            return;
         }
 
 
@@ -169,13 +174,13 @@ public class DiskSyS extends BaseApp {
             log.debug("正在往磁盘保存文件{}", file_temp.fcb.getPathName());
             //?属性拷贝: 对于DTO文件XXX.txt, 创建path和文件名(扩展名)和文件类型都已经赋值好. (仿照Linux交互)
             file_temp.fcb.setStartBlock(inputPos); //设置文件起始块
-            file_temp.fcb.setFileLength(getFileLength(file_temp)); //设置文件长度
-            handleDiskCompo.getBlockArtifact().setBytes21Block(file2Bytes(file_temp), inputPos); //写入磁盘
+            file_temp.fcb.setFileLength(handleFileCompo.getFileArtifact().getFileLength(file_temp)); //设置文件长度
+            handleDiskCompo.getBlockArtifact().setBytes21Block(handleFileCompo.getFileArtifact().file2Bytes(file_temp), inputPos); //写入磁盘
 
         } else if (A instanceof dir dir_temp) {
             log.debug("正在往磁盘保存文件夹{}", dir_temp.fcb.getPathName());
             dir_temp.fcb.setStartBlock(inputPos); //设置文件起始块
-            handleDiskCompo.getBlockArtifact().setBytes21Block(dir2Bytes(dir_temp), inputPos); //写入磁盘
+            handleDiskCompo.getBlockArtifact().setBytes21Block(handleFileCompo.getFileArtifact().dir2Bytes(dir_temp), inputPos); //写入磁盘
 
         } else {
             log.warn("不是文件也不是文件夹, 你是什么东西?{}", A);
@@ -185,8 +190,8 @@ public class DiskSyS extends BaseApp {
         }
 
         //3. FAT写入BLOCKS
-        handleDiskCompo.mountFAT2BLOCKS(diskSyS.disk.BLOCKS, FAT2Bytes(diskSyS.disk.FAT1), 1); //挂载FAT1字节对象
-        handleDiskCompo.mountFAT2BLOCKS(diskSyS.disk.BLOCKS, FAT2Bytes(diskSyS.disk.FAT2), 2); //挂载FAT2字节对象
+        handleDiskCompo.mountFAT2BLOCKS(diskSyS.disk.BLOCKS, handleDiskCompo.FAT2Bytes(diskSyS.disk.FAT1), 1); //挂载FAT1字节对象
+        handleDiskCompo.mountFAT2BLOCKS(diskSyS.disk.BLOCKS, handleDiskCompo.FAT2Bytes(diskSyS.disk.FAT2), 2); //挂载FAT2字节对象
 
         //4. BLOCKS全量覆写TXT
         txtUtil.writeAllDISK2TXT(diskSyS.disk.BLOCKS, WORKSHOP_PATH + DISK_FILE);
@@ -206,16 +211,15 @@ public class DiskSyS extends BaseApp {
             log.debug("正在从磁盘删除文件{}", file_temp.fcb.getPathName());
 
             //1. 定位盘块, 回收对应FAT
-            Integer state = set1FATFree(file_temp.fcb.getStartBlock());
+            Integer state = handleDiskCompo.set1FATFree(file_temp.fcb.getStartBlock());
             if (state == -1) {
                 log.warn("文件{}不存在, 无法删除", file_temp.fcb.getPathName());
                 throw new FailedException("你请求的文件不存在, 无法删除");
-                return;
             }
 
             //2. FAT写入BLOCKS
-            handleDiskCompo.mountFAT2BLOCKS(diskSyS.disk.BLOCKS, FAT2Bytes(diskSyS.disk.FAT1), 1);
-            handleDiskCompo.mountFAT2BLOCKS(diskSyS.disk.BLOCKS, FAT2Bytes(diskSyS.disk.FAT2), 2);
+            handleDiskCompo.mountFAT2BLOCKS(diskSyS.disk.BLOCKS, handleDiskCompo.FAT2Bytes(diskSyS.disk.FAT1), 1);
+            handleDiskCompo.mountFAT2BLOCKS(diskSyS.disk.BLOCKS, handleDiskCompo.FAT2Bytes(diskSyS.disk.FAT2), 2);
 
             //3. BLOCKS全量覆写TXT
             txtUtil.writeAllDISK2TXT(diskSyS.disk.BLOCKS, WORKSHOP_PATH + DISK_FILE);
@@ -224,16 +228,15 @@ public class DiskSyS extends BaseApp {
             log.debug("正在从磁盘删除文件夹{}", dir_temp.fcb.getPathName());
 
             //1. 定位盘块, 回收对应FAT
-            Integer state = set1FATFree(dir_temp.fcb.getStartBlock());
+            Integer state = handleDiskCompo.set1FATFree(dir_temp.fcb.getStartBlock());
             if (state == -1) {
                 log.warn("文件夹{}不存在, 无法删除", dir_temp.fcb.getPathName());
                 throw new FailedException("你请求的文件不存在, 无法删除");
-                return;
             }
 
             //2. FAT写入BLOCKS
-            handleDiskCompo.mountFAT2BLOCKS(diskSyS.disk.BLOCKS, FAT2Bytes(diskSyS.disk.FAT1), 1);
-            handleDiskCompo.mountFAT2BLOCKS(diskSyS.disk.BLOCKS, FAT2Bytes(diskSyS.disk.FAT2), 2);
+            handleDiskCompo.mountFAT2BLOCKS(diskSyS.disk.BLOCKS, handleDiskCompo.FAT2Bytes(diskSyS.disk.FAT1), 1);
+            handleDiskCompo.mountFAT2BLOCKS(diskSyS.disk.BLOCKS, handleDiskCompo.FAT2Bytes(diskSyS.disk.FAT2), 2);
 
             //3. BLOCKS全量覆写TXT
             txtUtil.writeAllDISK2TXT(diskSyS.disk.BLOCKS, WORKSHOP_PATH + DISK_FILE);
@@ -267,10 +270,9 @@ public class DiskSyS extends BaseApp {
             throw new RuntimeException("被投喂了奇怪的东西, 我当场趋势: " + A);
         }
         if (B instanceof file file_temp) {
-            if (getFileLength(file_temp) > BLOCK_SIZE) {
+            if (handleFileCompo.getFileArtifact().getFileLength(file_temp) > BLOCK_SIZE) {
                 log.warn("文件{}过大, 无法保存", file_temp.fcb.getPathName());
                 throw new FailedException("文件{}过大, 无法保存");
-                return;
             }
         }
 
@@ -282,13 +284,13 @@ public class DiskSyS extends BaseApp {
         if (B instanceof file file_temp) {
             log.debug("正在往磁盘保存文件{}", file_temp.fcb.getPathName());
             file_temp.fcb.setStartBlock(pos); //设置文件起始块
-            handleDiskCompo.getBlockArtifact().setBytes21Block(file2Bytes(file_temp), pos); //写入磁盘
+            handleDiskCompo.getBlockArtifact().setBytes21Block(handleFileCompo.getFileArtifact().file2Bytes(file_temp), pos); //写入磁盘
 
         } else {
             dir dir_temp = (dir) B;
             log.debug("正在往磁盘保存文件夹{}", dir_temp.fcb.getPathName());
             dir_temp.fcb.setStartBlock(pos); //设置文件夹起始块
-            handleDiskCompo.getBlockArtifact().setBytes21Block(dir2Bytes(dir_temp), pos); //写入磁盘
+            handleDiskCompo.getBlockArtifact().setBytes21Block(handleFileCompo.getFileArtifact().dir2Bytes(dir_temp), pos); //写入磁盘
 
         }
 
@@ -311,13 +313,13 @@ public class DiskSyS extends BaseApp {
         String str = txtUtil.read1BlockiTXT(pos);
         //3. 转换成对象
         if (A instanceof file file_temp) {
-            file_temp = bytes2File(str2Byte(str));
+            file_temp = handleFileCompo.getFileArtifact().bytes2File(str2Byte(str));
 
             //4. 打印信息
             System.out.println(file_temp);
             log.info("找到了文件对象实体: {}", file_temp.fcb.getPathName());
         } else {
-            dir dir_temp = bytes2Dir(str2Byte(str));
+            dir dir_temp = handleFileCompo.getFileArtifact().bytes2Dir(str2Byte(str));
 
             //4. 打印信息
             System.out.println(dir_temp);

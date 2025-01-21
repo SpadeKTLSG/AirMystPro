@@ -8,6 +8,8 @@ import org.spc.base.common.enumeration.FileDirTYPE;
 import org.spc.base.entity.file.dir;
 import org.spc.base.entity.file.file;
 import org.spc.base.entity.file.struct.FCB;
+import org.spc.file.app.FileSyS;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Objects;
@@ -26,6 +28,8 @@ import static org.spc.base.common.util.ByteUtil.*;
 @EqualsAndHashCode(callSuper = true)
 public class FileArtifact extends BaseArtifact {
 
+    @Autowired
+    FileSyS fileSyS;
 
     @Override
     public void initial() {
@@ -214,9 +218,9 @@ public class FileArtifact extends BaseArtifact {
             int length = FCB_LENGTH.get(field.getName());
 
             Integer temp = switch (field) { //不能使用任何简单的toString, 需要自己转换为对应映射表
-                case PATH_NAME -> bindPM(fcb.pathName);
+                case PATH_NAME -> fileSyS.bindPM(fcb.pathName);
                 case START_BLOCK -> fcb.startBlock;
-                case EXTEND_NAME -> findKeyiEM(fcb.extendName);
+                case EXTEND_NAME -> fileSyS.getHandleFileCompo().findKeyiEM(fcb.extendName);
                 case TYPE_FLAG -> FileorDir2Int(fcb);
                 case FILE_LENGTH -> fcb.fileLength;
             };
@@ -253,9 +257,9 @@ public class FileArtifact extends BaseArtifact {
             Integer temp = byte2Int(valueBytes);
 
             switch (field) {
-                case PATH_NAME -> fcb.pathName = selectPM(temp);
+                case PATH_NAME -> fcb.pathName = fileSyS.selectPM(temp);
                 case START_BLOCK -> fcb.startBlock = temp;
-                case EXTEND_NAME -> fcb.extendName = selectEM(temp);
+                case EXTEND_NAME -> fcb.extendName = fileSyS.getHandleFileCompo().selectEM(temp);
                 case TYPE_FLAG -> fcb.typeFlag = Int2FileorDir(temp);
                 case FILE_LENGTH -> fcb.fileLength = temp;
             }
@@ -292,7 +296,7 @@ public class FileArtifact extends BaseArtifact {
 //                case PATH_NAME -> fcb.pathName = selectPM(temp);
                 case PATH_NAME -> fcb.pathName = TRASH_DIR_PATHNAME;// 重大bug: 无法修复, 如果没有额外的存储名字的磁盘的话, 这将导致重启后文件名丢失; 因此只能调到boot目录下了
                 case START_BLOCK -> fcb.startBlock = temp;
-                case EXTEND_NAME -> fcb.extendName = selectEM(temp);
+                case EXTEND_NAME -> fcb.extendName = fileSyS.getHandleFileCompo().selectEM(temp);
                 case TYPE_FLAG -> fcb.typeFlag = Int2FileorDir(temp);
                 case FILE_LENGTH -> fcb.fileLength = temp;
             }
