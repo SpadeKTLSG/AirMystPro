@@ -2,6 +2,8 @@ package org.spc.process.compo;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.spc.base.client.DeviceClient;
+import org.spc.base.client.FileClient;
 import org.spc.base.compo.BaseCompo;
 import org.spc.base.entity.device.Device;
 import org.spc.process.artifact.ProcessListArtifact;
@@ -15,6 +17,13 @@ import org.springframework.stereotype.Service;
 @Data
 @EqualsAndHashCode(callSuper = true)
 public class CommandExcuteCompo extends BaseCompo {
+
+
+    @Autowired
+    DeviceClient deviceClient;
+
+    @Autowired
+    FileClient fileClient;
 
     //? Artifacts
 
@@ -53,16 +62,16 @@ public class CommandExcuteCompo extends BaseCompo {
         try {
             switch (s[0]) {
                 case "$add" -> {
-                    deviceManagement.devices.put(s[1], new Device(s[1]));
+                    deviceClient.giveDevices().put(s[1], new Device(s[1]));
                 }
                 case "$remove" -> {
-                    deviceManagement.devices.remove(s[1]);
+                    deviceClient.giveDevices().remove(s[1]);
                 }
                 case "stop" -> {
                     processListArtifact.getProcessList().get(s[1]).setStop(true);
                 }
                 default -> {
-                    toFrontApiList.getFrontRequest(order);
+                    fileClient.getFrontRequest(order);
                 }
             }
         } catch (Exception e) {

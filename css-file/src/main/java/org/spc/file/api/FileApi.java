@@ -39,4 +39,12 @@ public class FileApi {
         return withFrontCompo.givePath2Front();
 
     }
+
+    /**
+     * 获取前端请求
+     */
+    @GetMapping("/file/getFrontRequest")
+    void getFrontRequest(String order) {
+        withFrontCompo.getFrontRequest(order);
+    }
 }

@@ -19,4 +19,10 @@ public interface FileClient {
      */
     @GetMapping("/file/getPath2Front")
     String[] givePath2Front();
+
+    /**
+     * 获取前端请求
+     */
+    @GetMapping("/file/getFrontRequest")
+    void getFrontRequest(String order);
 }

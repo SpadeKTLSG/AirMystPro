@@ -1,7 +1,6 @@
 package org.spc.base.entity.process.struct;
 
 
-import lombok.Builder;
 import lombok.Data;
 import lombok.experimental.Accessors;
 import org.spc.base.common.constant.ProcessCT;
@@ -12,7 +11,6 @@ import java.util.HashMap;
  * 进程控制块
  */
 @Data
-@Builder
 @Accessors(chain = true)
 public class Pcb {
 

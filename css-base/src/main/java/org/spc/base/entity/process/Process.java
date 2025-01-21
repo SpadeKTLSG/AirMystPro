@@ -1,6 +1,5 @@
 package org.spc.base.entity.process;
 
-import lombok.Builder;
 import lombok.Data;
 import lombok.experimental.Accessors;
 import org.spc.base.entity.process.struct.Pcb;
@@ -14,7 +13,6 @@ import java.io.IOException;
  */
 
 @Data
-@Builder
 @Accessors(chain = true)
 public class Process {
 

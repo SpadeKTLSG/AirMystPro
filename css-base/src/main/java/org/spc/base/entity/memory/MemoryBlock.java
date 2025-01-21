@@ -1,6 +1,5 @@
 package org.spc.base.entity.memory;
 
-import lombok.Builder;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
@@ -8,7 +7,6 @@ import lombok.experimental.Accessors;
  * 内存块
  */
 @Data
-@Builder
 @Accessors(chain = true)
 public class MemoryBlock {
 

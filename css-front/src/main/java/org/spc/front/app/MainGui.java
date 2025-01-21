@@ -1,6 +1,7 @@
 package org.spc.front.app;
 
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.spc.base.client.DeviceClient;
 import org.spc.base.client.FileClient;
@@ -31,6 +32,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * <author> A
  */
 @Slf4j
+@RequiredArgsConstructor
 @Service
 public class MainGui {
 

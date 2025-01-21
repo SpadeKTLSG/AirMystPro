@@ -1,7 +1,6 @@
 package org.spc.base.entity.device;
 
 
-import lombok.Builder;
 import lombok.Data;
 import lombok.experimental.Accessors;
 import org.spc.base.entity.device.struct.ProcessDeviceUse;
@@ -13,7 +12,6 @@ import java.util.concurrent.ArrayBlockingQueue;
  * 设备类
  */
 @Data
-@Builder
 @Accessors(chain = true)
 public class Device {
 

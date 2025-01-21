@@ -62,7 +62,7 @@ public class HandleFileCompo extends BaseCompo {
      * 层次遍历TR
      *
      * @param root 文件系统树形结构根节点
-     * @deprecated 不是很好看
+     * @note 不是很好看
      */
     public String printTR(node root) {
         LinkedList<node> queue = new LinkedList<>();
@@ -293,7 +293,7 @@ public class HandleFileCompo extends BaseCompo {
      * EM删除ExtendName
      *
      * @param extendName 扩展名
-     * @deprecated 默认不提供删除扩展名方法
+     * @note 默认不提供删除扩展名方法
      */
     public void deleteEM(String extendName) {
         Integer key = findKeyiEM(extendName);
@@ -307,7 +307,7 @@ public class HandleFileCompo extends BaseCompo {
      * @param origin_exName 原扩展名
      * @param new_exName    新的扩展名
      * @return 返回新的扩展名
-     * @deprecated 默认不提供修改扩展名方法
+     * @note 默认不提供修改扩展名方法
      */
     public String alterEM(String origin_exName, String new_exName) {
         Integer key = findKeyiEM(origin_exName);

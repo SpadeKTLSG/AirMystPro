@@ -359,7 +359,7 @@ public class FileSyS extends BaseApp {
      * 初始化PM
      * <p>挂载根目录</p>
      *
-     * @deprecated 已经通过磁盘模块初始化完成
+     * @note 已经通过磁盘模块初始化完成
      */
     public void setDefaultPM() {
         pathManager = initialPM();
