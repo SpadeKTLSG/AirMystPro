@@ -3,6 +3,7 @@ package org.spc.file.special;
 
 import lombok.extern.slf4j.Slf4j;
 import org.spc.base.entity.file.struct.node;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import static org.spc.base.common.util.FileUtil.getName;
 
@@ -13,6 +14,8 @@ import static org.spc.base.common.util.FileUtil.getName;
  */
 @Slf4j
 public abstract class TreeUtil {
+
+    @Autowired
 
     /**
      * 获得树的层数

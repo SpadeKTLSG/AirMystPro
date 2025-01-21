@@ -1,6 +1,8 @@
 package org.spc.base.sys.load.impl;
 
 import lombok.extern.slf4j.Slf4j;
+import org.spc.base.common.exception.InitialException;
+import org.spc.base.common.handle.ExMes;
 import org.spc.base.compo.BaseCompo;
 import org.spc.base.sys.load.Loader;
 import org.springframework.context.annotation.Bean;
@@ -39,7 +41,8 @@ public class CompoLoader implements Loader<BaseCompo> {
                             compoGroup.add(compo);
                         }
                     } catch (IllegalAccessException e) {
-                        log.error("load error", e);
+                        log.error(ExMes.INITIAL_FAILED, e);
+                        throw new InitialException();
                     }
                 });
         // 组件加载工件

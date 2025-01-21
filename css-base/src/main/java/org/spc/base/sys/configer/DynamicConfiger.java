@@ -1,4 +1,4 @@
-package org.spc.base.special;
+package org.spc.base.sys.configer;
 
 
 import org.spc.api.IHamamap;

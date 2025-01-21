@@ -2,6 +2,8 @@ package org.spc.base.sys.load.impl;
 
 import lombok.extern.slf4j.Slf4j;
 import org.spc.base.artifact.BaseArtifact;
+import org.spc.base.common.exception.InitialException;
+import org.spc.base.common.handle.ExMes;
 import org.spc.base.sys.load.Loader;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
@@ -32,7 +34,8 @@ public class ArtifactLoader implements Loader<BaseArtifact> {
                             artifactGroup.add(artifact);
                         }
                     } catch (IllegalAccessException e) {
-                        log.error("load error", e);
+                        log.error(ExMes.INITIAL_FAILED, e);
+                        throw new InitialException();
                     }
                 });
         artifactGroup.forEach(BaseArtifact::initial);

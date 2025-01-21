@@ -69,7 +69,6 @@ public abstract class TXTUtil {
      * @param path 磁盘TXT映射文件路径
      * @param pos  行号(位置)
      * @return String化的内容对象(还是byte)
-     * @deprecated
      */
     public static String read1BlockiTXT(String path, Integer pos) {
 

@@ -1,17 +1,16 @@
 package org.spc.base.entity.file.struct;
 
-import css.out.file.enums.FileDirTYPE;
-import css.out.file.enums.ROOT_PATH;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
+import org.spc.base.common.enumeration.FileDirTYPE;
+import org.spc.base.common.enumeration.ROOT_PATH;
 
-import static css.out.file.api.InteractApiList.alertUser;
-import static css.out.file.entiset.GF.*;
-import static css.out.file.enums.FileDirTYPE.DIR;
-import static css.out.file.enums.FileDirTYPE.FILE;
-import static css.out.file.handleB.HandleFile.str2Path;
+import static org.spc.base.common.constant.FileCT.*;
+import static org.spc.base.common.enumeration.FileDirTYPE.DIR;
+import static org.spc.base.common.enumeration.FileDirTYPE.FILE;
 
 /**
  * FCB 文件控制块
@@ -91,7 +90,8 @@ public class FCB {
             this.fileLength = FCB_BYTE_LENGTH + FILE_LENGTH_DEFAULT;
 
         } else { //出错
-            alertUser("FCB构造失败, 传递flag: " + typeFlag + " 错误");
+            //FIXME 构造中的业务不好抽取, 暂时存着
+//            alertUser("FCB构造失败, 传递flag: " + typeFlag + " 错误");
             log.error("FCB构造失败, 传递flag: {} 错误", typeFlag);
         }
 
@@ -125,7 +125,8 @@ public class FCB {
             this.fileLength = FCB_BYTE_LENGTH + FILE_LENGTH_DEFAULT;
 
         } else { //出错
-            alertUser("FCB构造失败, 传递flag: " + typeFlag + " 错误");
+            //FIXME 构造中的业务不好抽取, 暂时存着
+//            alertUser("FCB构造失败, 传递flag: " + typeFlag + " 错误");
             log.error("FCB构造失败, 传递flag: {} 错误", typeFlag);
         }
 
@@ -158,7 +159,8 @@ public class FCB {
             this.fileLength = FCB_BYTE_LENGTH + FILE_LENGTH_DEFAULT;
 
         } else { //出错
-            alertUser("FCB构造失败, 传递flag: " + typeFlag + " 错误");
+            //FIXME 构造中的业务不好抽取, 暂时存着
+//            alertUser("FCB构造失败, 传递flag: " + typeFlag + " 错误");
             log.error("FCB构造失败, 传递flag: {} 错误", typeFlag);
         }
     }
