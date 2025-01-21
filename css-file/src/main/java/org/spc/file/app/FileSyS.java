@@ -37,33 +37,28 @@ import static org.spc.base.common.util.ByteUtil.byte2Str;
 @EqualsAndHashCode(callSuper = true)
 public class FileSyS extends BaseApp {
 
-    @Autowired
-    TXTUtil txtUtil;
-
-    @Autowired
-    HandleDiskCompo handleDiskCompo;
-
     /**
      * 文件系统树形结构
      * <p>没有存在磁盘里</p>
      */
     public TREE tree;
-
     /**
      * 路径管理器
      * <p>没有存在磁盘里</p>
      */
     public Map<Integer, String> pathManager;
-
     /**
      * 扩展名管理器
      * <p>没有存在磁盘里</p>
      */
     public Map<Integer, String> extendManager;
+    @Autowired
+    TXTUtil txtUtil;
+    @Autowired
+    HandleDiskCompo handleDiskCompo;
 
 
     //All Compos
-
     @Autowired
     HandleFileCompo handleFileCompo;
 

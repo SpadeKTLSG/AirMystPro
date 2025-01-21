@@ -3,6 +3,7 @@ package org.spc.process.compo;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.spc.base.compo.BaseCompo;
+import org.spc.base.entity.device.Device;
 import org.spc.process.artifact.ProcessListArtifact;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

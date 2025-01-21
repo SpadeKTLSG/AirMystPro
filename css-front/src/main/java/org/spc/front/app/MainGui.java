@@ -131,7 +131,7 @@ public class MainGui {
         //? 创建一个按钮用来手动刷新树状结构 + 进程
         JButton showTreeButton = new JButton("刷新");
         showTreeButton.addActionListener(e -> {
-            String[] path = givePath2Front(); //todo
+            String[] path = fileClient.givePath2Front();
             dynamicTree.updateTree(path);
         });
 
@@ -237,7 +237,7 @@ public class MainGui {
 
         // 初始化硬盘颜色数组
         disk = new Color[128];
-        initializeram(disk, giveBlockStatus2Front()); //todo
+        initializeram(disk, fileClient.queryBlockStatus());
         updateDisk(); // 初始更新硬盘视图
         p6.add(diskPanel);
         Mframe.add(p6);
@@ -250,7 +250,7 @@ public class MainGui {
         //? 由于刷新率太高不方便用户操作, 因此先改为手动刷新(快速) + 自动刷新(慢速)结合的方法
         Timer timer_treeFlush = new Timer(10000, e -> {
             //更新文件树
-            dynamicTree.updateTree(givePath2Front());  //todo
+            dynamicTree.updateTree(fileClient.givePath2Front());
         });
         timer_treeFlush.start();
 
@@ -261,7 +261,7 @@ public class MainGui {
             updateRam();
 
             //刷新磁盘
-            initializeram(disk, giveBlockStatus2Front()); //todo
+            initializeram(disk, fileClient.queryBlockStatus());
             updateDisk();
 
             //刷新时间
