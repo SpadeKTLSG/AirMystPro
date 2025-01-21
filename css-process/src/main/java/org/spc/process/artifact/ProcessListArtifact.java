@@ -1,24 +1,38 @@
 package org.spc.process.artifact;
 
-import org.spc.base.artifact.BaseArtifact;
-import org.springframework.stereotype.Component;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import org.spc.base.common.constant.ProcessCT;
+import org.spc.base.entity.process.Process;
+import org.spc.base.sys.artifact.BaseArtifact;
+import org.springframework.stereotype.Service;
 
 import java.util.concurrent.ConcurrentHashMap;
 
-@Component
+/**
+ * 进程链表工件
+ */
+@Service
+@Data
+@EqualsAndHashCode(callSuper = true)
 public class ProcessListArtifact extends BaseArtifact {
-
 
     /**
      * 进程链表
      */
-    private ConcurrentHashMap<Integer, Process> processList;
+    ConcurrentHashMap<Integer, Process> processList;
 
-    /**
-     * 初始化进程链表
-     */
+    @Override
     public void initial() {
-        this.processList = new ConcurrentHashMap<>();
+        Class<?> clazz = this.getClass();
+        Object instance = this;
+        super.initial(clazz, instance);
+        processList = new ConcurrentHashMap<>(ProcessCT.Queue_LENGTH_DEFAULT);
+    }
+
+    @Override
+    public void loadConfig() {
+
     }
 
 }
