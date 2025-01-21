@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @Slf4j
 @RestController
-@RequestMapping("/memory")
+@RequestMapping("/front")
 @RequiredArgsConstructor
 public class FrontApi {
 

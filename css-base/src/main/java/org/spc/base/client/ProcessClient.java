@@ -28,4 +28,10 @@ public interface ProcessClient {
      */
     @PostMapping("/process/commandExecution/{order}")
     void commandExecution(@PathVariable String order);
+
+    /**
+     * 运行进程
+     */
+    @PostMapping("/process/runProcess/")
+    void runProcess(Process process);
 }

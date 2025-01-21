@@ -9,6 +9,7 @@ import org.spc.process.compo.ProcessWorkCompo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
@@ -29,6 +30,7 @@ public class ProcessApi {
 
     @Autowired
     CommandExcuteCompo commandExcuteCompo;
+
 
     /**
      * 获得进程链表
@@ -52,5 +54,13 @@ public class ProcessApi {
     @PostMapping("/process/commandExecution/{order}")
     void commandExecution(@PathVariable String order) {
         commandExcuteCompo.commandExecution(order);
+    }
+
+    /**
+     * 运行进程
+     */
+    @PostMapping("/process/runProcess/")
+    void runProcess(Process process) throws IOException, InterruptedException {
+        processWorkCompo.run(process);
     }
 }

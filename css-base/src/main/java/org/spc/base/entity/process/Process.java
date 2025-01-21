@@ -7,6 +7,7 @@ import org.spc.base.entity.process.struct.Pcb;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
+import java.io.IOException;
 
 /**
  * 进程实体
@@ -39,6 +40,15 @@ public class Process {
     public Process(boolean stop, Pcb pcb) {
         this.stop = stop;
         this.pcb = pcb;
+        file = null;
+        bufferedReader = null;
+    }
+
+
+    public Process(String fileName) throws IOException {
+        pcb = new Pcb();
+        file = new FileReader(fileName);
+        bufferedReader = new BufferedReader(file);
     }
 
 }
