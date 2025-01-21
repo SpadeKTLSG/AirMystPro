@@ -22,11 +22,17 @@ import static org.spc.base.common.constant.FileCT.*;
 import static org.spc.base.common.util.ByteUtil.byte2Str;
 import static org.spc.base.common.util.ByteUtil.str2Byte;
 
+/**
+ * 磁盘处理组件
+ */
 @Slf4j
 @Service
 @Data
 @EqualsAndHashCode(callSuper = true)
 public class HandleDiskCompo extends BaseCompo {
+
+    @Autowired
+    HandleFileCompo handleFileCompo;
 
     @Autowired
     TXTUtil txtUtil;
@@ -60,6 +66,9 @@ public class HandleDiskCompo extends BaseCompo {
     }
 
 
+    //! 1. 磁盘 - CRUD
+
+
     /**
      * diskJava对象初始化
      */
@@ -71,8 +80,6 @@ public class HandleDiskCompo extends BaseCompo {
         disk.FAT2 = getVoidFAT2(); //获得FAT2对象
         return disk;
     }
-
-    //! 1. 磁盘 - CRUD
 
 
     /**
@@ -482,7 +489,7 @@ public class HandleDiskCompo extends BaseCompo {
 
 
         int pos = FAT2_DIR + 1; //pos = 3, 从4号块就是自己的内容了
-        FCB temp_fcb = new FCB();
+        FCB temp_fcb;
         byte[] bytes = new byte[64]; //byteBuilder - 8 * 8
         int count = 0; //当前插入字符byteBuilder末尾指针
 
@@ -490,7 +497,7 @@ public class HandleDiskCompo extends BaseCompo {
         for (ROOT_PATH root_path : ROOT_PATH.values()) {
 
             temp_fcb = new FCB("/:" + root_path.getName(), pos, FileDirTYPE.DIR);
-            System.arraycopy(fcb2Bytes(temp_fcb), 0, bytes, count, 8);
+            System.arraycopy(handleFileCompo.getFileArtifact().fcb2Bytes(temp_fcb), 0, bytes, count, 8);
             count += FCB_BYTE_LENGTH;
         }
 

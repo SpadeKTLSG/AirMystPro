@@ -6,6 +6,7 @@ import org.spc.base.app.CoreApp;
 import org.spc.base.common.util.AppLoader;
 import org.spc.base.config.FeignConfig;
 import org.spc.file.app.DiskSyS;
+import org.spc.file.app.FileApp;
 import org.spc.file.app.FileSyS;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -29,7 +30,8 @@ public class FileApplication {
         List<Class<? extends BaseApp>> baseAppClazzList = List.of(
                 CoreApp.class,
                 DiskSyS.class,
-                FileSyS.class
+                FileSyS.class,
+                FileApp.class
         );
 
         // 加载应用
