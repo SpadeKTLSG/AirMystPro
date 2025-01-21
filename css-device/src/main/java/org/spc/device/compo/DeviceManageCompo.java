@@ -4,11 +4,14 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.extern.slf4j.Slf4j;
 import org.spc.base.compo.BaseCompo;
+import org.spc.base.entity.device.Device;
 import org.spc.base.entity.device.struct.ProcessDeviceUse;
 import org.spc.base.entity.process.Process;
 import org.spc.device.artifact.DeviceLoadArtifact;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.HashMap;
 
 /**
  * 设备管理器组件
@@ -50,5 +53,12 @@ public class DeviceManageCompo extends BaseCompo {
      */
     public void putProcessUse2Device(String target, Process process, long time) throws InterruptedException {
         deviceLoadArtifact.getDevices().get(target).arrayBlockingQueue.put(new ProcessDeviceUse(process, time));
+    }
+
+    /**
+     * 给出Devices
+     */
+    public HashMap<String, Device> giveDevices() {
+        return deviceLoadArtifact.getDevices();
     }
 }

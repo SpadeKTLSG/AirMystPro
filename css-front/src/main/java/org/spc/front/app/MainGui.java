@@ -6,6 +6,7 @@ import org.spc.base.client.DeviceClient;
 import org.spc.base.client.FileClient;
 import org.spc.base.client.MemoryClient;
 import org.spc.base.client.ProcessClient;
+import org.spc.base.entity.device.Device;
 import org.spc.base.entity.process.Process;
 import org.spc.front.compo.DynamicTree;
 import org.spc.front.compo.PopupDialog;
@@ -172,15 +173,12 @@ public class MainGui {
 
 
         //接收devices -> Map : 设备名字 + 使用的进程
-        Map<String, String> devices = new HashMap<>();
-
-        //Stream拷贝devices 到 devices
-        deviceManagement.devices.forEach((k, v) -> {  //todo
-            devices.put(k, String.valueOf(v.nowProcessPcb.pcbId));
+        Map<String, String> deviceView = new HashMap<>();
+        Map<String, Device> deviceTemp = deviceClient.giveDevices();
+        deviceTemp.forEach((k, v) -> {   //Stream拷贝devices 到 deviceView
+            deviceView.put(k, String.valueOf(v.nowProcessPcb.getPcbId()));
         });
-
-
-//        System.out.println(devices);
+        log.debug((deviceView).toString()); //废案
 
 
         //? 非常好设备(非常坏)
