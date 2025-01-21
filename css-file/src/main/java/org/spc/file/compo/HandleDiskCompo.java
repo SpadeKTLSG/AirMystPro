@@ -41,6 +41,26 @@ public class HandleDiskCompo extends BaseCompo {
 
     //? Default Methods
 
+    @Override
+    public void initial() {
+        Class<?> clazz = this.getClass();
+        Object instance = this;
+        super.initial(clazz, instance);
+    }
+
+    @Override
+    public void loadArtifact(Class<?> clazz, Object instance) {
+
+    }
+
+    @Override
+    public void loadConfig() {
+
+    }
+
+    //! 1. 磁盘 - CRUD
+
+
     /**
      * 字节数组设置1个block内容+TXT位置写入
      *
@@ -84,8 +104,6 @@ public class HandleDiskCompo extends BaseCompo {
         }
     }
 
-
-    //! 1. 磁盘 - CRUD
 
     /**
      * 获取空FAT1
@@ -137,8 +155,7 @@ public class HandleDiskCompo extends BaseCompo {
             if (Objects.equals(fat.get(i), Null_Pointer)) //如果这一项是空的, 就在磁盘上写0(空)
                 FATByte[i] = 0;
 
-            else
-                FATByte[i] = fat.get(i).byteValue(); //将FAT列表中每一项的值转换为字节
+            else FATByte[i] = fat.get(i).byteValue(); //将FAT列表中每一项的值转换为字节
         }
 
         return FATByte;
@@ -157,28 +174,11 @@ public class HandleDiskCompo extends BaseCompo {
             FAT.add(Null_Pointer);
 
         for (int i = 0; i < FAT_SIZE; i++)
-            if ((int) bytes[i] != 0)
-                FAT.set(i, (int) bytes[i]);
+            if ((int) bytes[i] != 0) FAT.set(i, (int) bytes[i]);
 
         return FAT;
     }
 
-    @Override
-    public void initial() {
-        Class<?> clazz = this.getClass();
-        Object instance = this;
-        super.initial(clazz, instance);
-    }
-
-    @Override
-    public void loadArtifact(Class<?> clazz, Object instance) {
-
-    }
-
-    @Override
-    public void loadConfig() {
-
-    }
 
     /**
      * 将FAT1和FAT2合并为一整个FAT
@@ -336,27 +336,22 @@ public class HandleDiskCompo extends BaseCompo {
 
 
         //不需要再去找为空值的块了, 因为没有被引用的空置节点也算是空闲块
-        List<Integer> keys = allFATMap.entrySet().stream()
-                .filter(entry -> entry.getValue().equals(Null_Pointer)) //需要找到空置节点序列, 在序列中取第一项
-                .map(Map.Entry::getKey)
-                .toList();
+        List<Integer> keys = allFATMap.entrySet().stream().filter(entry -> entry.getValue().equals(Null_Pointer)) //需要找到空置节点序列, 在序列中取第一项
+                .map(Map.Entry::getKey).toList();
 
         Integer pos = keys.get(0);
 
         //直接找到第一个allFATMap的值
 
 
-        if (pos != null && !pos.equals(FAT_SIZE * 2 - 1))
-            return pos;
+        if (pos != null && !pos.equals(FAT_SIZE * 2 - 1)) return pos;
 
         //如果正常的空置队列里找不到, 就去探索没有被占用的悬空队列作为保底
 
         //从allFATMAP中获取一个任意值
-        pos = allFATMap.values().stream()
-                .toList().get(0);
+        pos = allFATMap.values().stream().toList().get(0);
 
-        if (pos != null && !pos.equals(FAT_SIZE * 2 - 1))
-            return pos;
+        if (pos != null && !pos.equals(FAT_SIZE * 2 - 1)) return pos;
 
         log.warn("咩有空闲块咯");
         //throw new RuntimeException("没有找到空闲块!");
