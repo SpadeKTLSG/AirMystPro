@@ -4,6 +4,7 @@ package org.spc.process.compo;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.extern.slf4j.Slf4j;
+import org.spc.base.client.DeviceClient;
 import org.spc.base.client.MemoryClient;
 import org.spc.base.compo.BaseCompo;
 import org.spc.base.entity.process.Process;
@@ -24,6 +25,9 @@ public class ProcessRunnerCompo extends BaseCompo {
 
     @Autowired
     MemoryClient memoryClient;
+
+    @Autowired
+    DeviceClient deviceClient;
 
     @Autowired
     ProcessSchedulerCompo processSchedulingCompo;
@@ -103,8 +107,8 @@ public class ProcessRunnerCompo extends BaseCompo {
         } else if (s.startsWith("!")) { //设备请求语句
             String c = String.valueOf(s.charAt(1));
 //
-            //放入设备的等待队列中 todo
-//            deviceManagement.devices.get(c).arrayBlockingQueue.put(new ProcessDeviceUse(this, s.charAt(2) - '0'));
+            //放入设备的等待队列中
+            deviceClient.putProcessUse2Device(c, process, s.charAt(2) - '0');
 
             //将其设为阻塞状态
             pcb.setState(2);

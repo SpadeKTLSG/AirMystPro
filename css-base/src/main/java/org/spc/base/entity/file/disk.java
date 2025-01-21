@@ -51,9 +51,10 @@ public class disk {
     }
 
     /**
-     * diskJava对象初始化 todo 移动
+     * diskJava对象初始化
      */
     public static disk initialDisk() {
+        //todo 移动
         disk disk = new disk();
         disk.name = DISK_NAME;
         disk.BLOCKS = initialBLOCKS(); //获得初始磁盘空间(全0)

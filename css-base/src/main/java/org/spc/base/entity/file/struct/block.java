@@ -2,7 +2,8 @@ package org.spc.base.entity.file.struct;
 
 import java.util.Arrays;
 
-import static css.out.file.entiset.GF.BLOCK_SIZE;
+import static org.spc.base.common.constant.FileCT.BLOCK_SIZE;
+
 
 /**
  * 字节构成的单个磁盘块

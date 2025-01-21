@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.spc.base.common.enumeration.FileDirTYPE;
 import org.spc.base.common.enumeration.ROOT_PATH;
+import org.spc.base.common.exception.BuildException;
 
 import static org.spc.base.common.constant.FileCT.*;
 import static org.spc.base.common.enumeration.FileDirTYPE.DIR;
@@ -90,9 +91,8 @@ public class FCB {
             this.fileLength = FCB_BYTE_LENGTH + FILE_LENGTH_DEFAULT;
 
         } else { //出错
-            //FIXME 构造中的业务不好抽取, 暂时存着
-//            alertUser("FCB构造失败, 传递flag: " + typeFlag + " 错误");
             log.error("FCB构造失败, 传递flag: {} 错误", typeFlag);
+            throw new BuildException("FCB构造失败, 传递flag: " + typeFlag + " 错误");
         }
 
     }
@@ -125,9 +125,8 @@ public class FCB {
             this.fileLength = FCB_BYTE_LENGTH + FILE_LENGTH_DEFAULT;
 
         } else { //出错
-            //FIXME 构造中的业务不好抽取, 暂时存着
-//            alertUser("FCB构造失败, 传递flag: " + typeFlag + " 错误");
             log.error("FCB构造失败, 传递flag: {} 错误", typeFlag);
+            throw new BuildException("FCB构造失败, 传递flag: " + typeFlag + " 错误");
         }
 
     }
@@ -159,9 +158,8 @@ public class FCB {
             this.fileLength = FCB_BYTE_LENGTH + FILE_LENGTH_DEFAULT;
 
         } else { //出错
-            //FIXME 构造中的业务不好抽取, 暂时存着
-//            alertUser("FCB构造失败, 传递flag: " + typeFlag + " 错误");
             log.error("FCB构造失败, 传递flag: {} 错误", typeFlag);
+            throw new BuildException("FCB构造失败, 传递flag: " + typeFlag + " 错误");
         }
     }
 
@@ -175,7 +173,7 @@ public class FCB {
         if (typeFlag == DIR) { //目录
 
             //autofill
-            this.pathName = str2Path(String.valueOf(ROOT_PATH.tmp)) + ':' + DIR_NAME_DEFAULT;
+            this.pathName = "/" + ROOT_PATH.tmp + ':' + DIR_NAME_DEFAULT;
             this.startBlock = Null_Pointer;
             this.extendName = DIR_EXTEND.get(0);
             this.typeFlag = DIR;
@@ -184,15 +182,15 @@ public class FCB {
         } else if (typeFlag == FILE) { //文件
 
             //autofill
-            this.pathName = str2Path(String.valueOf(ROOT_PATH.tmp)) + ':' + FILE_NAME_DEFAULT;
+            this.pathName = "/" + ROOT_PATH.tmp + ':' + FILE_NAME_DEFAULT;
             this.startBlock = Null_Pointer;
             this.extendName = FILE_EXTEND.get(0);
             this.typeFlag = FILE;
             this.fileLength = FCB_BYTE_LENGTH + FILE_LENGTH_DEFAULT;
 
         } else { //出错
-            alertUser("FCB构造失败, 传递flag: " + typeFlag + " 错误");
             log.error("FCB构造失败, 传递flag: {} 错误", typeFlag);
+            throw new BuildException("FCB构造失败, 传递flag: " + typeFlag + " 错误");
         }
     }
 

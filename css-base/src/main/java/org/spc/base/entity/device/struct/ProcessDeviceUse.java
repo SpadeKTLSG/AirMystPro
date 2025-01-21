@@ -3,6 +3,7 @@ package org.spc.base.entity.device.struct;
 import lombok.Builder;
 import lombok.Data;
 import lombok.experimental.Accessors;
+import org.spc.base.entity.process.Process;
 
 /**
  * 进程 - 设备使用

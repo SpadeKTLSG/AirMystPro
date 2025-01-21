@@ -4,8 +4,8 @@ package org.spc.base.entity.file.struct;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 
-import static css.out.file.entiset.GF.*;
-import static css.out.file.enums.FileDirTYPE.DIR;
+import static org.spc.base.common.constant.FileCT.*;
+import static org.spc.base.common.enumeration.FileDirTYPE.DIR;
 
 /**
  * 虚拟节点, 用于存储文件系统结构

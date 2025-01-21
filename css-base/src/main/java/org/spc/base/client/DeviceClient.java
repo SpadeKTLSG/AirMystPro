@@ -1,25 +1,16 @@
 package org.spc.base.client;
 
+import org.spc.base.entity.process.Process;
 import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.web.bind.annotation.PostMapping;
 
 @FeignClient(name = "device", url = "http://localhost:11481")
 public interface DeviceClient {
 
-    //User
-//    @GetMapping("/guest/user/remote/User/getById/{id}")
-//    User getById(@PathVariable Long id);
-//
-//
-//    @PostMapping("/guest/user/remote/User/updateById")
-//    void updateById(@RequestBody User user);
-//
-//    //UserFunc
-//    @GetMapping("/guest/user/remote/UserFunc/getById/{id}")
-//    UserFunc getById_UserFunc(@PathVariable Long id);
-//
-//
-//    @PostMapping("/guest/user/remote/UserFunc/updateById")
-//    void updateById_UserFunc(@RequestBody UserFunc userFunc);
-
+    /**
+     * 将进程使用到设备
+     */
+    @PostMapping("/putProcessUse2Device")
+    void putProcessUse2Device(String target, Process process, long time);
 
 }

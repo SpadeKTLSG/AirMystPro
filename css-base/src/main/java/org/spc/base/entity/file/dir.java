@@ -5,7 +5,7 @@ import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.spc.base.entity.file.struct.FCB;
 
-import static css.out.file.enums.FileDirTYPE.DIR;
+import static org.spc.base.common.enumeration.FileDirTYPE.DIR;
 
 /**
  * 文件夹实体
