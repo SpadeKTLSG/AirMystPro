@@ -9,6 +9,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
+import static org.spc.base.common.constant.FileCT.DISK_SIZE;
+
 
 /**
  * 用户命令接口Api
@@ -18,6 +20,26 @@ public class toFrontApiList {
 
     //! 1.信息传递
 
+    /**
+     * 获取全局磁盘使用量
+     *
+     * @return 全局磁盘使用量(百分数
+     */
+    public Double diskUsageAmount_All() {
+        double count;
+        List<Integer> usedFATList = getFATOrder();
+        if (usedFATList != null) {
+            count = ((usedFATList.size() + 1.0) / (double) DISK_SIZE);
+        } else {
+            count = 0.0;
+        }
+
+        double or = count * 100;
+
+        or = (double) Math.round(or * 100) / 100;       //保留两位
+        log.debug("全局磁盘使用量 = {} %", or);
+        return or;
+    }
 
     /**
      * 传递路径给前端
@@ -429,16 +451,5 @@ public class toFrontApiList {
         return B;
     }
 
-
-    /**
-     * 嵌套删除文件夹(以及下面的所有对象)
-     * <p>rmall XXX /tmp</p>
-     *
-     * @param object 文件夹对象
-     * @deprecated DLC内容 这里不建议使用嵌套回收, 因为我仍然使用的是普通的删除逻辑, 但是加上了一个类似GC的玩意在我的FAT Manager里面
-     */
-    public static void rmallOrder(Object object) {
-        //工期不够, 不做了
-    }
 
 }
