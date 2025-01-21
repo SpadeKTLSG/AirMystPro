@@ -7,6 +7,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 public interface FrontClient {
 
 
+    /**
+     * 发送异常信息
+     */
     @PostMapping("/front/sendException")
     void sendException(String message);
 

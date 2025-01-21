@@ -19,7 +19,7 @@ public class FrontApi {
 
 
     /**
-     * 发送异常消息到前端
+     * 发送(异常)消息到前端展示
      */
     @PostMapping("/front/sendException")
     void sendException(String content) {
