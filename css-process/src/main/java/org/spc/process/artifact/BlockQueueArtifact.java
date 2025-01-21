@@ -2,9 +2,9 @@ package org.spc.process.artifact;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import org.spc.base.artifact.BaseArtifact;
 import org.spc.base.common.constant.ProcessCT;
 import org.spc.base.entity.process.Process;
+import org.spc.base.sys.artifact.BaseArtifact;
 import org.springframework.stereotype.Service;
 
 import java.util.concurrent.ArrayBlockingQueue;

@@ -2,9 +2,9 @@ package org.spc.memory.artifact;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import org.spc.base.artifact.BaseArtifact;
 import org.spc.base.common.constant.MemoryCT;
 import org.spc.base.entity.memory.MemoryBlock;
+import org.spc.base.sys.artifact.BaseArtifact;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;

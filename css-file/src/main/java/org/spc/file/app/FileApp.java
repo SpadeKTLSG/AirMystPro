@@ -3,7 +3,7 @@ package org.spc.file.app;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.extern.slf4j.Slf4j;
-import org.spc.base.app.BaseApp;
+import org.spc.base.sys.app.BaseApp;
 import org.spc.file.compo.WithFrontCompo;
 import org.spc.file.compo.WithProcessCompo;
 import org.springframework.beans.factory.annotation.Autowired;

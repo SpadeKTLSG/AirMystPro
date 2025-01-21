@@ -2,8 +2,8 @@ package org.spc.file.artifact;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import org.spc.base.artifact.BaseArtifact;
 import org.spc.base.entity.file.struct.block;
+import org.spc.base.sys.artifact.BaseArtifact;
 import org.spc.file.app.DiskSyS;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

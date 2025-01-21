@@ -2,7 +2,7 @@ package org.spc.memory.app;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import org.spc.base.app.BaseApp;
+import org.spc.base.sys.app.BaseApp;
 import org.spc.memory.compo.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

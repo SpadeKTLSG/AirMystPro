@@ -2,10 +2,10 @@ package org.spc.process.app;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import org.spc.base.app.BaseApp;
 import org.spc.base.common.constant.ProcessCT;
 import org.spc.base.entity.process.Process;
 import org.spc.base.entity.process.struct.Pcb;
+import org.spc.base.sys.app.BaseApp;
 import org.spc.process.compo.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

@@ -1,10 +1,10 @@
 package org.spc.file;
 
 import lombok.extern.slf4j.Slf4j;
-import org.spc.base.app.BaseApp;
-import org.spc.base.app.CoreApp;
 import org.spc.base.common.util.AppLoader;
 import org.spc.base.config.FeignConfig;
+import org.spc.base.sys.app.BaseApp;
+import org.spc.base.sys.app.CoreApp;
 import org.spc.file.app.DiskSyS;
 import org.spc.file.app.FileApp;
 import org.spc.file.app.FileSyS;
@@ -38,9 +38,6 @@ public class FileApplication {
         baseAppClazzList.forEach(AppLoader::loadByClass);
 
     }
-
-    //! 下面是原FileApplication的内容, 因为三级架构的原因, 无法再抽取, 于是放这里:
-
 
 }
 

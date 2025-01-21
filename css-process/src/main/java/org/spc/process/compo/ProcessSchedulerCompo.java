@@ -2,8 +2,8 @@ package org.spc.process.compo;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import org.spc.base.compo.BaseCompo;
 import org.spc.base.entity.process.Process;
+import org.spc.base.sys.compo.BaseCompo;
 import org.spc.process.artifact.BlockQueueArtifact;
 import org.spc.process.artifact.ReadyQueueArtifact;
 import org.spc.process.artifact.RunningProcessArtifact;

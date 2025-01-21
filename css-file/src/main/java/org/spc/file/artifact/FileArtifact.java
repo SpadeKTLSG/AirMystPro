@@ -2,12 +2,12 @@ package org.spc.file.artifact;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import org.spc.base.artifact.BaseArtifact;
 import org.spc.base.common.enumeration.FCB_FIELD;
 import org.spc.base.common.enumeration.FileDirTYPE;
 import org.spc.base.entity.file.dir;
 import org.spc.base.entity.file.file;
 import org.spc.base.entity.file.struct.FCB;
+import org.spc.base.sys.artifact.BaseArtifact;
 import org.spc.file.app.FileSyS;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

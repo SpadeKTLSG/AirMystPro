@@ -1,9 +1,9 @@
-package org.spc.base.compo;
+package org.spc.base.sys.compo;
 
 import lombok.extern.slf4j.Slf4j;
 import org.spc.api.IHamamap;
-import org.spc.base.artifact.BaseArtifact;
-import org.spc.base.artifact.CoreArtifact;
+import org.spc.base.sys.artifact.BaseArtifact;
+import org.spc.base.sys.artifact.CoreArtifact;
 import org.spc.base.sys.load.impl.ArtifactLoader;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

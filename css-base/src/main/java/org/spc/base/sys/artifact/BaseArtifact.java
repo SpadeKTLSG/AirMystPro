@@ -1,4 +1,4 @@
-package org.spc.base.artifact;
+package org.spc.base.sys.artifact;
 
 import lombok.extern.slf4j.Slf4j;
 import org.spc.api.IHamamap;

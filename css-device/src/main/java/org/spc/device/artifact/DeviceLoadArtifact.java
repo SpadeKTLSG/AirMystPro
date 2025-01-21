@@ -3,8 +3,8 @@ package org.spc.device.artifact;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import org.spc.base.artifact.BaseArtifact;
 import org.spc.base.entity.device.Device;
+import org.spc.base.sys.artifact.BaseArtifact;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;

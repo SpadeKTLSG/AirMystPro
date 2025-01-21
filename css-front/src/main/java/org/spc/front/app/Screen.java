@@ -3,7 +3,7 @@ package org.spc.front.app;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.extern.slf4j.Slf4j;
-import org.spc.base.app.BaseApp;
+import org.spc.base.sys.app.BaseApp;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;

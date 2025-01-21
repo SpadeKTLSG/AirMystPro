@@ -1,10 +1,10 @@
 package org.spc.process;
 
 import lombok.extern.slf4j.Slf4j;
-import org.spc.base.app.BaseApp;
-import org.spc.base.app.CoreApp;
 import org.spc.base.common.util.AppLoader;
 import org.spc.base.config.FeignConfig;
+import org.spc.base.sys.app.BaseApp;
+import org.spc.base.sys.app.CoreApp;
 import org.spc.process.app.CPUApp;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

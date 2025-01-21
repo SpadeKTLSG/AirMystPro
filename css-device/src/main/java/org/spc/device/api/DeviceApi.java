@@ -21,7 +21,6 @@ import java.util.HashMap;
 @RequiredArgsConstructor
 public class DeviceApi {
 
-    //Components
     @Autowired
     DeviceManageCompo deviceManageCompo;
 

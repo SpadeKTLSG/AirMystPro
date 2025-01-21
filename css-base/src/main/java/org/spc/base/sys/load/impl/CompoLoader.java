@@ -3,7 +3,7 @@ package org.spc.base.sys.load.impl;
 import lombok.extern.slf4j.Slf4j;
 import org.spc.base.common.exception.InitialException;
 import org.spc.base.common.handle.ExMes;
-import org.spc.base.compo.BaseCompo;
+import org.spc.base.sys.compo.BaseCompo;
 import org.spc.base.sys.load.Loader;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
@@ -45,7 +45,7 @@ public class CompoLoader implements Loader<BaseCompo> {
                         throw new InitialException();
                     }
                 });
-        // 组件加载工件
+        // 组件加载
         compoGroup.forEach(BaseCompo::initial);
 
         return compoGroup;

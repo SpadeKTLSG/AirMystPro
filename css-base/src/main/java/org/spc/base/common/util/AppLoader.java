@@ -1,7 +1,7 @@
 package org.spc.base.common.util;
 
 import lombok.extern.slf4j.Slf4j;
-import org.spc.base.app.BaseApp;
+import org.spc.base.sys.app.BaseApp;
 
 /**
  * 应用加载器
