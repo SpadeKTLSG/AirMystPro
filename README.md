@@ -4,7 +4,7 @@
 
 ### 技术栈
 
-SpringBoot
+SpringBoot, SpringMVC, Feign...
 
 ### 项目描述
 
@@ -27,3 +27,11 @@ SpringBoot
 补充了之前成员仓库遗漏的单例设计, 修复了问题
 
 新: (3.0)
+
+拿Spring框架重构了项目，使用了SpringBoot、SpringMVC、Feign等技术
+
+本希望借此引入线程池等内容, 但是业务逻辑限制以及旧代码积重难返, 无法如我所愿
+
+同时时间紧迫无法调试, 遂就此罢休
+
+现已加入玄桃K简历豪华套餐

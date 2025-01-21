@@ -100,25 +100,19 @@ public class InteractCompo extends BaseCompo {
         //正在运行 = 当前指令 = 如果有就+1
 
         //二区段
+        int sysMemoryUsage = memoryDisplayCompo.getSysMemoryUsage() * 2;
+        int totalOccupiedMemory = sysMemoryUsage + blockList.size() + readyList.size();
+
         for (int i = 0; i < 64; i++) {
-
-            if (i < memoryDisplayCompo.getSysMemoryUsage() * 2) { // 系统模块占用内存 *2
+            if (i < sysMemoryUsage) { // 系统模块占用内存 *2
                 greatmemory.add(3);
-                continue;
-            }
-
-            if (i < memoryDisplayCompo.getSysMemoryUsage() * 2 + blockList.size() + readyList.size()) { //普通占用内存 占用 = 就绪 + 阻塞
+            } else if (i < totalOccupiedMemory) { // 普通占用内存 占用 = 就绪 + 阻塞
                 greatmemory.add(1);
-                continue;
-            }
-
-            if (running_flag && i == memoryDisplayCompo.getSysMemoryUsage() * 2 + blockList.size() + readyList.size()) { //正在运行
+            } else if (running_flag && i == totalOccupiedMemory) { // 正在运行
                 greatmemory.add(2);
-                continue;
+            } else {
+                greatmemory.add(0);
             }
-
-            greatmemory.add(0);
-
         }
 
         return greatmemory;

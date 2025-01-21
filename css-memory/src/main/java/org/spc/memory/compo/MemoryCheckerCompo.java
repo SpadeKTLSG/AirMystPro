@@ -67,10 +67,10 @@ public class MemoryCheckerCompo extends BaseCompo {
      * 检查连续块是否可用
      */
     private boolean isConsecutiveBlocksAvailable(int row, int col, int consecutiveBlocks) {
-        //从给定索引开始检查
+
         MemoryBlock[][] memoryBlock = memoryLoadArtifact.getMemory();
 
-        for (int j = col; j < col + consecutiveBlocks; j++)
+        for (int j = col; j < col + consecutiveBlocks; j++)  //从给定索引开始检查
             if (!memoryBlock[row][j].getContent().equals("---")) {
                 return false;
             }

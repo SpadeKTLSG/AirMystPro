@@ -362,8 +362,7 @@ public class WithFrontCompo extends BaseCompo {
      * @param subPath 目标位置
      */
     public Object copyOrder(Object A, String subPath) {
-        if (A == null) return null;
-        if (subPath == null) return null;
+        if (A == null || subPath == null) return null;
         file or_file = (file) A;
         file B = new file(subPath + ':' + or_file.fcb.pathName.split(":")[1], or_file.fcb.getExtendName(), or_file.getContent());
         fileApp.addContent(B);
@@ -404,8 +403,7 @@ public class WithFrontCompo extends BaseCompo {
      * @param A 源文件对象
      */
     public Object moveOrder(Object A, String subPath) {
-        if (A == null) return null;
-        if (subPath == null) return null;
+        if (A == null || subPath == null) return null;
         file or_file = (file) A;
         file B = new file(subPath + ':' + or_file.fcb.pathName.split(":")[1], or_file.fcb.getExtendName(), or_file.getContent());
         fileApp.alterContent(A, B);

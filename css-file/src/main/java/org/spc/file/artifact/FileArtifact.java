@@ -31,6 +31,7 @@ public class FileArtifact extends BaseArtifact {
     @Autowired
     FileSyS fileSyS;
 
+
     @Override
     public void initial() {
         Class<?> clazz = this.getClass();

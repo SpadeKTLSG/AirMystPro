@@ -73,29 +73,30 @@ public class MemoryUseCompo extends BaseCompo {
         int[] startingBlock = memoryCheckerCompo.findConsecutiveBlocks(consecutiveBlocks);
 
         // 如果找到连续块，则分配内存
-        if (startingBlock != null) {
-            MemoryBlock[] allocatedBlocks = new MemoryBlock[consecutiveBlocks];
-            int blockIndex = 0;
-
-            for (int i = startingBlock[0]; i < startingBlock[0] + consecutiveBlocks; i++) {
-                for (int j = startingBlock[1]; j < MemoryCT.BLOCK_LENGTH; j++) {
-
-                    if (blockIndex < data.length()) {
-                        int blockSize = Math.min(3, data.length() - blockIndex);
-                        memoryBlock[i][j].setContent(data.substring(blockIndex, blockIndex + blockSize));
-                        allocatedBlocks[blockIndex] = memoryBlock[i][j];
-                        blockIndex += blockSize;
-                    }
-                    //跟踪内存被哪些进程所占用
-                    relateblock[i][j] = processId;
-                }
-            }
-
-            log.debug("为进程{}分配{}内存 ", processId, allocatedBlocks[0].getContent());
-
-        } else {
+        if (startingBlock == null) {
             log.error("进程{}的内存分配失败 ", processId);
+            return;
         }
+
+        MemoryBlock[] allocatedBlocks = new MemoryBlock[consecutiveBlocks];
+        int blockIndex = 0;
+
+        for (int i = startingBlock[0]; i < startingBlock[0] + consecutiveBlocks; i++) {
+            for (int j = startingBlock[1]; j < MemoryCT.BLOCK_LENGTH; j++) {
+
+                if (blockIndex < data.length()) {
+                    int blockSize = Math.min(3, data.length() - blockIndex);
+                    memoryBlock[i][j].setContent(data.substring(blockIndex, blockIndex + blockSize));
+                    allocatedBlocks[blockIndex] = memoryBlock[i][j];
+                    blockIndex += blockSize;
+                }
+                //跟踪内存被哪些进程所占用
+                relateblock[i][j] = processId;
+            }
+        }
+
+        log.debug("为进程{}分配{}内存 ", processId, allocatedBlocks[0].getContent());
+
     }
 
 

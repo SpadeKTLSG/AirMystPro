@@ -8,6 +8,7 @@ import org.spc.file.compo.WithFrontCompo;
 import org.spc.file.compo.WithProcessCompo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
 
@@ -35,6 +36,38 @@ public class FileApp extends BaseApp {
 
     @Autowired
     WithFrontCompo withFrontCompo;
+
+
+    @Override
+    public void initial() {
+        Class<?> clazz = this.getClass();
+        Object instance = this;
+        super.initial(clazz, instance);
+
+        //通电
+        try {
+            this.power();
+        } catch (IOException | InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public void loadCompo(Class<?> clazz, Object instance) {
+
+    }
+
+    @Override
+    public void loadConfig() {
+
+    }
+
+    /**
+     * FileApp通电
+     */
+    public void power() throws IOException, InterruptedException {
+        //文件不需要主动保持运行, 核心在CPU那里
+    }
 
 
     //? Default Methods
@@ -93,6 +126,7 @@ public class FileApp extends BaseApp {
      *
      * @param A 文件/文件夹对象
      */
+    @Transactional
     public void addContent(Object A) {
         fileSyS.addContentFS(A);
         diskSyS.addContentDS(A);
@@ -106,6 +140,7 @@ public class FileApp extends BaseApp {
      *
      * @param A 文件/文件夹对象
      */
+    @Transactional
     public void deleteContent(Object A) {
         fileSyS.deleteContentFS(A);
         diskSyS.deleteContentDS(A);
@@ -121,6 +156,7 @@ public class FileApp extends BaseApp {
      * @param A 被修改的对象
      * @param B 修改后的对象
      */
+    @Transactional
     public void alterContent(Object A, Object B) {
         fileSyS.alterContentFS(A, B);
         diskSyS.alterContentDS(A, B);
@@ -139,41 +175,12 @@ public class FileApp extends BaseApp {
     }
 
     //! 3. 实用工具
+
     //清理回收站
+    @Transactional
     public void cleanRecycleBin() {
         //删除/boot下的所有树节点文件, 但是不回收盘块(模拟电脑被垃圾堆满的效果)
         fileSyS.cleanRebootFile();
-    }
-
-    @Override
-    public void initial() {
-        Class<?> clazz = this.getClass();
-        Object instance = this;
-        super.initial(clazz, instance);
-
-        //通电
-        try {
-            this.power();
-        } catch (IOException | InterruptedException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    @Override
-    public void loadCompo(Class<?> clazz, Object instance) {
-
-    }
-
-    @Override
-    public void loadConfig() {
-
-    }
-
-    /**
-     * FileApp通电
-     */
-    public void power() throws IOException, InterruptedException {
-        //文件不需要主动保持运行, 核心在CPU那里
     }
 
     /**
@@ -231,6 +238,7 @@ public class FileApp extends BaseApp {
     /**
      * 覆盖模式启动
      */
+    @Transactional
     public void coverDiskRoboot() {
         diskSyS.coverRebootDisk();
         fileSyS.coverRebootFile();
@@ -242,6 +250,7 @@ public class FileApp extends BaseApp {
     /**
      * 格式化模式启动
      */
+    @Transactional
     public void kickDiskRoboot() {
         diskSyS.cleanRebootDisk();
         fileSyS.cleanRebootFile();

@@ -79,11 +79,7 @@ public class DiskSyS extends BaseApp {
     public void cleanRebootDisk() {
         //获取新磁盘对象
         diskSyS.disk = handleDiskCompo.initialDisk();
-        handleDiskCompo.mountFAT2BLOCKS(diskSyS.disk.BLOCKS, handleDiskCompo.FAT2Bytes(diskSyS.disk.FAT1), 1); //挂载FAT1字节对象
-        handleDiskCompo.mountFAT2BLOCKS(diskSyS.disk.BLOCKS, handleDiskCompo.FAT2Bytes(diskSyS.disk.FAT2), 2); //挂载FAT2字节对象
-        //写入磁盘
-        txtUtil.writeAllDISK2TXT(diskSyS.disk.BLOCKS, WORKSHOP_PATH + DISK_FILE);
-        putStr2Disk(txtUtil.readAllTXT2Str(WORKSHOP_PATH + DISK_FILE));
+        coverRebootDisk();
         log.debug("{}格式化完成!", diskSyS.disk.name);
     }
 

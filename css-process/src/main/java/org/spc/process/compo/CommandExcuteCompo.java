@@ -59,23 +59,20 @@ public class CommandExcuteCompo extends BaseCompo {
         String[] s = order.split(" ");
 
 
-        try {
-            switch (s[0]) {
-                case "$add" -> {
-                    deviceClient.giveDevices().put(s[1], new Device(s[1]));
-                }
-                case "$remove" -> {
-                    deviceClient.giveDevices().remove(s[1]);
-                }
-                case "stop" -> {
-                    processListArtifact.getProcessList().get(s[1]).setStop(true);
-                }
-                default -> {
-                    fileClient.getFrontRequest(order);
-                }
+        switch (s[0]) {
+            case "$add" -> {
+                deviceClient.giveDevices().put(s[1], new Device(s[1]));
             }
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+            case "$remove" -> {
+                deviceClient.giveDevices().remove(s[1]);
+            }
+            case "stop" -> {
+                processListArtifact.getProcessList().get(s[1]).setStop(true);
+            }
+            default -> {
+                fileClient.getFrontRequest(order);
+            }
         }
+
     }
 }

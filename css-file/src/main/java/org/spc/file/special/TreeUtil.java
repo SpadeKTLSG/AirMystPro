@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
  */
 @Slf4j
 @Component
-public abstract class TreeUtil {
+public class TreeUtil {
 
     @Autowired
     HandleFileCompo handleFileCompo;

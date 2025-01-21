@@ -42,18 +42,23 @@ public class FileSyS extends BaseApp {
      * <p>没有存在磁盘里</p>
      */
     public TREE tree;
+
     /**
      * 路径管理器
      * <p>没有存在磁盘里</p>
      */
     public Map<Integer, String> pathManager;
+
     /**
      * 扩展名管理器
      * <p>没有存在磁盘里</p>
      */
     public Map<Integer, String> extendManager;
+
+
     @Autowired
     TXTUtil txtUtil;
+
     @Autowired
     HandleDiskCompo handleDiskCompo;
 
@@ -126,8 +131,7 @@ public class FileSyS extends BaseApp {
         for (Integer single : orderList) {
 
             //去除FAT和DEFAULT位置盘块
-            if (Objects.equals(single, FAT1_DIR) || Objects.equals(single, FAT2_DIR) || Objects.equals(single, ROOT_DIR_BLOCK))
-                continue;
+            if (Objects.equals(single, FAT1_DIR) || Objects.equals(single, FAT2_DIR) || Objects.equals(single, ROOT_DIR_BLOCK)) continue;
 
             //读取出块切分为FCB_LENGTH和余下部分
             byte[] tempBytes = handleDiskCompo.getBlockArtifact().read1Block2Bytes(single);
@@ -256,11 +260,7 @@ public class FileSyS extends BaseApp {
         node parentNode = handleFileCompo.searchUpperNode(fcb); //得到要删除的节点的父节点(一定是目录)
         node targetNode = handleFileCompo.selectTR2Node(fcb);//得到要删除的节点本身
 
-        if (parentNode == null) {
-            return;
-        }
-
-        if (targetNode == null) {
+        if (parentNode == null || targetNode == null) {
             return;
         }
 
@@ -329,17 +329,16 @@ public class FileSyS extends BaseApp {
         int lastMeaningfulIndex = 0;
 
         for (int i = 0; i < temp.length; i++)
-            if (!temp[i].equals("0"))
-                lastMeaningfulIndex = i;
+            if (!temp[i].equals("0")) lastMeaningfulIndex = i;
 
         for (int i = FCB_BYTE_LENGTH; i < lastMeaningfulIndex + 1; i++)
             sb.append((char) Integer.parseInt(temp[i]));
 
         if (originalFcb.getTypeFlag() == FileDirTYPE.FILE)
             return new file(new FCB(originalFcb.getPathName(), originalFcb.getStartBlock(), originalFcb.getExtendName(), originalFcb.getTypeFlag(), originalFcb.getFileLength()), sb.toString());
-        else
-            return new dir(new FCB(originalFcb.getPathName(), originalFcb.getStartBlock(), originalFcb.getExtendName(), originalFcb.getTypeFlag(), originalFcb.getFileLength()));
+        else return new dir(new FCB(originalFcb.getPathName(), originalFcb.getStartBlock(), originalFcb.getExtendName(), originalFcb.getTypeFlag(), originalFcb.getFileLength()));
     }
+
 
     //! 2. 路径管理器PM/
 
@@ -377,9 +376,7 @@ public class FileSyS extends BaseApp {
     public Integer bindPM(String pathName) {
 
         List<Integer> keys = pathManager.entrySet().stream() //将Map转换为Stream，过滤出值等于目标值的键值对，映射为键，收集为集合
-                .filter(entry -> entry.getValue().isEmpty())
-                .map(Map.Entry::getKey)
-                .toList();
+                .filter(entry -> entry.getValue().isEmpty()).map(Map.Entry::getKey).toList();
 
         //log.debug("当前路径映射器中的空白位置: {}", keys.size());
         pathManager.put(keys.get(0), pathName);
@@ -409,9 +406,7 @@ public class FileSyS extends BaseApp {
         }
 
         List<Integer> keys = pathManager.entrySet().stream() //将Map转换为Stream，过滤出值等于目标值的键值对，映射为键，收集为集合
-                .filter(entry -> entry.getValue().equals(pathName))
-                .map(Map.Entry::getKey)
-                .toList();
+                .filter(entry -> entry.getValue().equals(pathName)).map(Map.Entry::getKey).toList();
 
         if (keys.isEmpty()) {
             log.warn("路径管理器中找不到对应的路径{}?!", pathName);
