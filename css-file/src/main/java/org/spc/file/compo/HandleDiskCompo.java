@@ -7,6 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.spc.base.common.enumeration.FileDirTYPE;
 import org.spc.base.common.enumeration.ROOT_PATH;
 import org.spc.base.compo.BaseCompo;
+import org.spc.base.entity.file.disk;
 import org.spc.base.entity.file.struct.FCB;
 import org.spc.base.entity.file.struct.block;
 import org.spc.file.app.DiskSyS;
@@ -56,6 +57,19 @@ public class HandleDiskCompo extends BaseCompo {
     @Override
     public void loadConfig() {
 
+    }
+
+
+    /**
+     * diskJava对象初始化
+     */
+    public disk initialDisk() {
+        disk disk = new disk();
+        disk.name = DISK_NAME;
+        disk.BLOCKS = diskSyS.initialBLOCKS(); //获得初始磁盘空间(全0)
+        disk.FAT1 = getVoidFAT1(); //获得FAT1对象
+        disk.FAT2 = getVoidFAT2(); //获得FAT2对象
+        return disk;
     }
 
     //! 1. 磁盘 - CRUD

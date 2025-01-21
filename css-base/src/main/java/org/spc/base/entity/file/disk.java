@@ -6,8 +6,6 @@ import org.spc.base.entity.file.struct.block;
 
 import java.util.List;
 
-import static org.spc.base.common.constant.FileCT.DISK_NAME;
-
 
 /**
  * 磁盘
@@ -50,18 +48,6 @@ public class disk {
     public disk() {
     }
 
-    /**
-     * diskJava对象初始化
-     */
-    public static disk initialDisk() {
-        //todo 移动
-        disk disk = new disk();
-        disk.name = DISK_NAME;
-        disk.BLOCKS = initialBLOCKS(); //获得初始磁盘空间(全0)
-        disk.FAT1 = getVoidFAT1(); //获得FAT1对象
-        disk.FAT2 = getVoidFAT2(); //获得FAT2对象
-        return disk;
-    }
 
     @Override
     public String toString() {
