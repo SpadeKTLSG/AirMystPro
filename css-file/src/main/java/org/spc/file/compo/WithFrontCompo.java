@@ -3,16 +3,21 @@ package org.spc.file.compo;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.extern.slf4j.Slf4j;
+import org.spc.base.client.FrontClient;
+import org.spc.base.common.exception.FailedException;
 import org.spc.base.compo.BaseCompo;
 import org.spc.base.entity.file.dir;
 import org.spc.base.entity.file.file;
+import org.spc.file.app.FileApp;
+import org.spc.file.app.FileSyS;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
-import static org.spc.base.common.constant.FileCT.DISK_SIZE;
+import static org.spc.base.common.constant.FileCT.*;
 
 /**
  * 与前端交互组件
@@ -21,8 +26,22 @@ import static org.spc.base.common.constant.FileCT.DISK_SIZE;
 @Service
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class toFrontCompo extends BaseCompo {
+public class WithFrontCompo extends BaseCompo {
 
+    @Autowired
+    FrontClient frontClient;
+
+    @Autowired
+    HandleDiskCompo handleDiskCompo;
+
+    @Autowired
+    WithProcessCompo withProcessCompo;
+
+    @Autowired
+    FileSyS fileSyS;
+
+    @Autowired
+    FileApp fileApp;
 
     //? Artifacts
 
@@ -56,7 +75,7 @@ public class toFrontCompo extends BaseCompo {
      */
     public Double diskUsageAmount_All() {
         double count;
-        List<Integer> usedFATList = getFATOrder();
+        List<Integer> usedFATList = handleDiskCompo.getFATOrder();
         if (usedFATList != null) {
             count = ((usedFATList.size() + 1.0) / (double) DISK_SIZE);
         } else {
@@ -125,7 +144,7 @@ public class toFrontCompo extends BaseCompo {
      * @return DTO FAT
      */
     public List<Integer> giveBlockStatus2Front() {
-        List<Integer> greatFAT = mergeFATs();
+        List<Integer> greatFAT = handleDiskCompo.mergeFATs();
         //刷洗greatFAT, 0: 空闲 1:占用 3: 系统-> DTO FAT
         //?刷洗符合要求
         for (int i = 0; i < greatFAT.size(); i++) {
@@ -151,8 +170,8 @@ public class toFrontCompo extends BaseCompo {
      * @param order 前端完整请求
      */
     public void getFrontRequest(String order) {
-        isExeFile = 0; //复位可执行标志位
-        handleCommon(handleOrder(order));
+        withProcessCompo.isExeFile = 0; //复位可执行标志位
+        withProcessCompo.handleCommon(handleOrder(order));
     }
 
 
@@ -170,8 +189,8 @@ public class toFrontCompo extends BaseCompo {
 
         switch (order_size) {
             case 1, 2 -> {
-                alertUser("找不到对应的命令");
-                return null;
+                throw new FailedException("找不到对应的命令");
+
             }
             case 3 -> { //标准三个参数 -> order | 文件全名 | path1(ELSE)
                 order = orderList[0];
@@ -186,13 +205,13 @@ public class toFrontCompo extends BaseCompo {
             }
             default -> {
                 log.warn("命令错误");
-                alertUser("找不到对应的命令");
+                throw new FailedException("找不到对应的命令");
             }
         }
 
         if (order == null | allName == null | path1 == null) {
-            alertUser("找不到对应的命令");
-            return null;
+            log.warn("命令错误");
+            throw new FailedException("找不到对应的命令");
         }
 
         return doFunction(order, allName, path1, path2);          //?返回传递进程对象信息
@@ -245,8 +264,7 @@ public class toFrontCompo extends BaseCompo {
             }
             default -> {
                 log.error("命令错误");
-                alertUser("找不到对应的命令");
-                return null;
+                throw new FailedException("找不到对应的命令");
             }
         }
     }
@@ -269,25 +287,21 @@ public class toFrontCompo extends BaseCompo {
                 String extendName = '.' + allName.split("\\.")[1];
 
                 file temp_file = new file(pathName, extendName, "");
-                return selectContent(temp_file);
+                return fileApp.selectContent(temp_file);
 
             } else if (order.equals("makdir") | order.equals("chadir") | order.equals("deldir")) {
                 String pathName = path + ':' + allName.split("\\.")[0];
                 String extendName = ".";
 
                 dir temp_dir = new dir(pathName, extendName);
-                return selectContent(temp_dir);
+                return fileApp.selectContent(temp_dir);
 
             } else {
-                alertUser("命令语法错误!");
-                return null;
+
+                throw new FailedException("命令语法错误!");
             }
-        } catch (ArrayIndexOutOfBoundsException | NullPointerException e) {
-            alertUser("命令语法错误!");
-            return null;
         } catch (Exception e) {
-            alertUser("命令语法错误!");
-            throw new RuntimeException(e);
+            throw new FailedException("命令语法错误!");
         }
 
     }
@@ -303,17 +317,16 @@ public class toFrontCompo extends BaseCompo {
     public Object packageObjectfrFront(String order, String allName, String path) {//制作新对象对象, 需要根据操作order判断文件还是文件夹
         if (order.equals("create") | order.equals("copy") | order.equals("delete") | order.equals("move") | order.equals("type") | order.equals("change") | order.equals("run") | order.equals("edit")) {
             file temp_file = new file(path + ':' + allName.split("\\.")[0], '.' + allName.split("\\.")[1], "");
-            addContent(temp_file);
-            return selectContent(temp_file);
+            fileApp.addContent(temp_file);
+            return fileApp.selectContent(temp_file);
 
         } else if (order.equals("makdir") | order.equals("chadir") | order.equals("deldir")) {
             dir temp_dir = new dir(path + ':' + allName.split("\\.")[0], "");
-            addContent(temp_dir);
-            return selectContent(temp_dir);
+            fileApp.addContent(temp_dir);
+            return fileApp.selectContent(temp_dir);
 
         } else {
-            alertUser("命令语法错误!");
-            return null;
+            throw new FailedException("命令语法错误!");
         }
     }
 
@@ -353,7 +366,7 @@ public class toFrontCompo extends BaseCompo {
         if (subPath == null) return null;
         file or_file = (file) A;
         file B = new file(subPath + ':' + or_file.fcb.pathName.split(":")[1], or_file.fcb.getExtendName(), or_file.getContent());
-        addContent(B);
+        fileApp.addContent(B);
         return B;
     }
 
@@ -366,7 +379,7 @@ public class toFrontCompo extends BaseCompo {
      */
     public Object deleteOrder(Object object) {
         if (object == null) return null;
-        deleteContent(object);
+        fileApp.deleteContent(object);
         return object;
     }
 
@@ -379,7 +392,7 @@ public class toFrontCompo extends BaseCompo {
      */
     public Object deldirOrder(Object object) {
         if (object == null) return null;
-        deleteContent(object);
+        fileApp.deleteContent(object);
         return object;
     }
 
@@ -395,7 +408,7 @@ public class toFrontCompo extends BaseCompo {
         if (subPath == null) return null;
         file or_file = (file) A;
         file B = new file(subPath + ':' + or_file.fcb.pathName.split(":")[1], or_file.fcb.getExtendName(), or_file.getContent());
-        alterContent(A, B);
+        fileApp.alterContent(A, B);
         return B;
     }
 
@@ -408,7 +421,7 @@ public class toFrontCompo extends BaseCompo {
      */
     public Object typeOrder(Object object) {
         if (object == null) return null;
-        msg(((file) object).getContent());
+        frontClient.sendException(((file) object).getContent());
         return object;
     }
 
@@ -425,7 +438,7 @@ public class toFrontCompo extends BaseCompo {
         file or_file = (file) A;
         if (newName == null) newName = FILE_NAME_DEFAULT; //容错判定
         file B = new file(or_file.fcb.pathName.split(":")[0] + ':' + newName, or_file.fcb.getExtendName(), or_file.getContent());
-        alterContent(A, B);
+        fileApp.alterContent(A, B);
         return B;
     }
 
@@ -439,7 +452,7 @@ public class toFrontCompo extends BaseCompo {
         dir or_file = (dir) A;
         if (newName == null) newName = DIR_NAME_DEFAULT; //容错判定
         dir B = new dir(or_file.fcb.pathName.split(":")[0] + ':' + newName, or_file.fcb.getExtendName());
-        alterContent(A, B);
+        fileApp.alterContent(A, B);
         return B;
     }
 
@@ -456,10 +469,10 @@ public class toFrontCompo extends BaseCompo {
         //判断是否符合命名规范; #开头
         file temp_file = (file) object;
         if (!temp_file.getFcb().pathName.split(":")[1].startsWith("#")) {
-            alertUser("不是可执行文件");
-            return null;
+            throw new FailedException("不是可执行文件");
         }
-        isExeFile = 1;//标记为可执行文件
+        withProcessCompo.isExeFile = 1;//标记为可执行文件
+
         return object;
     }
 
@@ -475,7 +488,7 @@ public class toFrontCompo extends BaseCompo {
         if (newContent == null) newContent = ""; //容错判定
         file or_file = (file) A;
         file B = new file(or_file.fcb.pathName.split(":")[0] + ':' + or_file.fcb.pathName.split(":")[1], or_file.fcb.getExtendName(), newContent);
-        alterContent(A, B);
+        fileApp.alterContent(A, B);
 
         return B;
     }

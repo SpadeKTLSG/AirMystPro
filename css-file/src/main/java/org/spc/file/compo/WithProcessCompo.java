@@ -24,7 +24,7 @@ import java.util.Objects;
 @Service
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class toProcessCompo extends BaseCompo {
+public class WithProcessCompo extends BaseCompo {
 
     @Autowired
     ProcessClient processClient;

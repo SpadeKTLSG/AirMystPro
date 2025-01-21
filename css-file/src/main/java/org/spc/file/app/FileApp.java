@@ -4,6 +4,8 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.extern.slf4j.Slf4j;
 import org.spc.base.app.BaseApp;
+import org.spc.file.compo.WithFrontCompo;
+import org.spc.file.compo.WithProcessCompo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -27,6 +29,12 @@ public class FileApp extends BaseApp {
     DiskSyS diskSyS;
 
     //All Compos
+
+    @Autowired
+    WithProcessCompo withProcessCompo;
+
+    @Autowired
+    WithFrontCompo withFrontCompo;
 
 
     //? Default Methods
