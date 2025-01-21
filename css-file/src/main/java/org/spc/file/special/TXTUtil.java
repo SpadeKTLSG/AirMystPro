@@ -3,6 +3,7 @@ package org.spc.file.special;
 
 import lombok.extern.slf4j.Slf4j;
 import org.spc.base.entity.file.struct.block;
+import org.springframework.stereotype.Component;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
@@ -14,6 +15,7 @@ import static org.spc.base.common.constant.FileCT.*;
  * 磁盘块映射文件(TXT文件)工具类
  */
 @Slf4j
+@Component
 public abstract class TXTUtil {
 
     //! 1.单行TXT操作
@@ -26,7 +28,7 @@ public abstract class TXTUtil {
      * @param path 目标TXT文件路径
      * @param pos  位置
      */
-    public static void write1Str2TXT(String msg, String path, Integer pos) {
+    public void write1Str2TXT(String msg, String path, Integer pos) {
         StringBuilder sb = new StringBuilder();            //全部读取保存到StringBuffer
         Integer pos_temp = 0;
 
@@ -70,7 +72,7 @@ public abstract class TXTUtil {
      * @param pos  行号(位置)
      * @return String化的内容对象(还是byte)
      */
-    public static String read1BlockiTXT(String path, Integer pos) {
+    public String read1BlockiTXT(String path, Integer pos) {
 
         String res = "";
 
@@ -94,7 +96,7 @@ public abstract class TXTUtil {
      * @param pos 行号(位置)
      * @return String化的内容对象(还是byte)
      */
-    public static String read1BlockiTXT(Integer pos) {
+    public String read1BlockiTXT(Integer pos) {
         String path = WORKSHOP_PATH + DISK_FILE;
         return read1BlockiTXT(path, pos);
     }
@@ -107,7 +109,7 @@ public abstract class TXTUtil {
      * @param BLOCKS 磁盘块阵列
      * @param path   目标TXT文件路径
      */
-    public static void writeAllDISK2TXT(List<block> BLOCKS, String path) {
+    public void writeAllDISK2TXT(List<block> BLOCKS, String path) {
 
         try (BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(path), StandardCharsets.UTF_8))) {
 
@@ -139,7 +141,7 @@ public abstract class TXTUtil {
      * @param path 目标TXT文件路径
      * @return 一整个String大对象
      */
-    public static String readAllTXT2Str(String path) {
+    public String readAllTXT2Str(String path) {
 
         StringBuilder sb = new StringBuilder();
 

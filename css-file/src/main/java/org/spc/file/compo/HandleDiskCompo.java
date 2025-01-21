@@ -9,17 +9,35 @@ import org.spc.base.common.enumeration.ROOT_PATH;
 import org.spc.base.compo.BaseCompo;
 import org.spc.base.entity.file.struct.FCB;
 import org.spc.base.entity.file.struct.block;
+import org.spc.file.app.DiskSyS;
+import org.spc.file.artifact.BlockArtifact;
+import org.spc.file.special.TXTUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
 
 import static org.spc.base.common.constant.FileCT.*;
+import static org.spc.base.common.util.ByteUtil.byte2Str;
+import static org.spc.base.common.util.ByteUtil.str2Byte;
 
 @Slf4j
 @Service
 @Data
 @EqualsAndHashCode(callSuper = true)
 public class HandleDiskCompo extends BaseCompo {
+
+    @Autowired
+    TXTUtil txtUtil;
+
+    @Autowired
+    DiskSyS diskSyS;
+
+    //? Artifacts
+
+    @Autowired
+    BlockArtifact blockArtifact;
+
 
     //? Default Methods
 
@@ -29,9 +47,9 @@ public class HandleDiskCompo extends BaseCompo {
      * @param bytes    字节数组内容
      * @param blockNum 块号
      */
-    public static void setBytes21Block_TXT(byte[] bytes, int blockNum) {
-        setBytes21Block(bytes, blockNum);
-        write1Str2TXT(byte2Str(bytes), WORKSHOP_PATH + DISK_FILE, blockNum);
+    public void setBytes21Block_TXT(byte[] bytes, int blockNum) {
+        blockArtifact.setBytes21Block(bytes, blockNum);
+        txtUtil.write1Str2TXT(byte2Str(bytes), WORKSHOP_PATH + DISK_FILE, blockNum);
     }
 
     /**
@@ -40,9 +58,9 @@ public class HandleDiskCompo extends BaseCompo {
      * @param str      字符串内容
      * @param blockNum 块号
      */
-    public static void setStr21Block_TXT(String str, int blockNum) {
-        setBytes21Block(str2Byte(str), blockNum);
-        write1Str2TXT(str, WORKSHOP_PATH + DISK_FILE, blockNum);
+    public void setStr21Block_TXT(String str, int blockNum) {
+        blockArtifact.setBytes21Block(str2Byte(str), blockNum);
+        txtUtil.write1Str2TXT(str, WORKSHOP_PATH + DISK_FILE, blockNum);
     }
 
     /**
@@ -52,7 +70,7 @@ public class HandleDiskCompo extends BaseCompo {
      * @param FAT_Byte FAT字节对象
      * @param type     FAT类型: 1 or 2
      */
-    public static void mountFAT2BLOCKS(List<block> BLOCKS, byte[] FAT_Byte, Integer type) {
+    public void mountFAT2BLOCKS(List<block> BLOCKS, byte[] FAT_Byte, Integer type) {
         switch (type) {
             case 1 -> { //FAT 1
                 BLOCKS.set(FAT1_DIR, new block(FAT_Byte));
@@ -74,7 +92,7 @@ public class HandleDiskCompo extends BaseCompo {
      *
      * @return 默认FAT1
      */
-    public static List<Integer> getVoidFAT1() {
+    public List<Integer> getVoidFAT1() {
 
         List<Integer> FAT = getVoidFAT2();
 
@@ -91,7 +109,7 @@ public class HandleDiskCompo extends BaseCompo {
      *
      * @return 默认FAT2
      */
-    public static List<Integer> getVoidFAT2() {
+    public List<Integer> getVoidFAT2() {
 
         List<Integer> FAT = new ArrayList<>(FAT_SIZE);
 
@@ -110,7 +128,7 @@ public class HandleDiskCompo extends BaseCompo {
      * @param fat FAT对象
      * @return FAT字节对象
      */
-    public static byte[] FAT2Bytes(List<Integer> fat) {
+    public byte[] FAT2Bytes(List<Integer> fat) {
 
         byte[] FATByte = new byte[FAT_SIZE];
 
@@ -132,7 +150,7 @@ public class HandleDiskCompo extends BaseCompo {
      * @param bytes FAT字节对象
      * @return FAT对象
      */
-    public static List<Integer> Bytes2FAT(byte[] bytes) {
+    public List<Integer> Bytes2FAT(byte[] bytes) {
         List<Integer> FAT = new ArrayList<>(FAT_SIZE);
 
         for (int i = 0; i < FAT_SIZE; i++)
@@ -145,29 +163,48 @@ public class HandleDiskCompo extends BaseCompo {
         return FAT;
     }
 
+    @Override
+    public void initial() {
+        Class<?> clazz = this.getClass();
+        Object instance = this;
+        super.initial(clazz, instance);
+    }
+
+    @Override
+    public void loadArtifact(Class<?> clazz, Object instance) {
+
+    }
+
+    @Override
+    public void loadConfig() {
+
+    }
+
     /**
      * 将FAT1和FAT2合并为一整个FAT
      *
      * @return FAT1 + FAT2 = allFAT
      */
-    public static List<Integer> mergeFATs() {
+    public List<Integer> mergeFATs() {
         List<Integer> allFAT = new ArrayList<>();
         for (int i = 0; i < FAT_SIZE; i++)
-            allFAT.add(diskSyS.disk.FAT1.get(i));
+            allFAT.add(diskSyS.getDisk().FAT1.get(i));
         for (int i = 0; i < FAT_SIZE; i++)
-            allFAT.add(diskSyS.disk.FAT2.get(i));
+            allFAT.add(diskSyS.getDisk().FAT2.get(i));
         return allFAT;
     }
+
 
     /**
      * 将逻辑allFAT分割为FAT1和FAT2保存
      *
      * @param allFAT 逻辑allFAT
      */
-    public static void breakFAT(List<Integer> allFAT) {
+    public void breakFAT(List<Integer> allFAT) {
         diskSyS.disk.FAT1 = allFAT.subList(0, FAT_SIZE);
         diskSyS.disk.FAT2 = allFAT.subList(FAT_SIZE, FAT_SIZE * 2);
     }
+
 
     /**
      * 指定FAT1为全满状态, 下一个空闲位置位于FAT2
@@ -175,7 +212,7 @@ public class HandleDiskCompo extends BaseCompo {
      *
      * @param type 1: FAT1 2: FAT2
      */
-    public static void fullFillFAT(Integer type) {
+    public void fullFillFAT(Integer type) {
 
         List<Integer> FAT1 = new ArrayList<>(FAT_SIZE);
         int i = 0;
@@ -184,7 +221,7 @@ public class HandleDiskCompo extends BaseCompo {
 
         FAT1.set(FAT_SIZE - 1, FAT_SIZE);
 
-        diskSyS.disk.FAT1 = FAT1;
+        diskSyS.getDisk().FAT1 = FAT1;
 
         if (type == 2) { //还要将FAT2设置为全满
             List<Integer> FAT2 = new ArrayList<>(FAT_SIZE);
@@ -200,24 +237,26 @@ public class HandleDiskCompo extends BaseCompo {
         mountFAT2BLOCKS(diskSyS.disk.BLOCKS, FAT2Bytes(diskSyS.disk.FAT2), 2); //挂载FAT2字节对象
     }
 
+
     /**
      * 使用键值对手动指定逻辑大FAT中的某个位置
      *
      * @param pos   位置
      * @param value 值
      */
-    public static void specifyFAT(Integer pos, Integer value) {
+    public void specifyFAT(Integer pos, Integer value) {
         List<Integer> allFAT = mergeFATs();
         allFAT.set(pos, value);
         breakFAT(allFAT);
     }
+
 
     /**
      * 使用Map来手动指定逻辑大FAT中的一些位置的值
      *
      * @param map 键值对
      */
-    public static void specifyFAT(Map<Integer, Integer> map) {
+    public void specifyFAT(Map<Integer, Integer> map) {
         List<Integer> allFAT = mergeFATs();
 
         for (Map.Entry<Integer, Integer> entry : map.entrySet())//解析传入的键值对, 将其设置到allFAT中
@@ -226,13 +265,14 @@ public class HandleDiskCompo extends BaseCompo {
         breakFAT(allFAT);
     }
 
+
     /**
      * 利用FAT构建当前磁盘块的顺序访问序列order
      * <p>order的最后一项就是最后一个占用了的盘块, 其指向空</p>
      *
      * @return 顺序访问的盘块号List序列
      */
-    public static List<Integer> getFATOrder() {
+    public List<Integer> getFATOrder() {
 
         int pos = 0;
         List<Integer> order = new ArrayList<>(); //顺序访问的盘块号
@@ -253,41 +293,10 @@ public class HandleDiskCompo extends BaseCompo {
                 return order;
         }
 
-        //Fixed Faild by SK 12.30
-/*
-        int pos = 0;
-        List<Integer> order = new ArrayList<>(); //顺序访问的盘块号
-
-        List<Integer> allFAT = mergeFATs();
-
-        for (int i = 0; i < FAT_SIZE * 2; i++) {
-
-            if (!Objects.equals(pos, Null_Pointer)) {
-
-                order.add(pos); //第一个肯定是在队列中的
-                int pre = pos; //保存一份
-                pos = allFAT.get(pos); //更新pos
-
-                if (order.contains(pos)) {//如果新的pos仍然在队列中, 默认后来的覆盖之前的, 之前的被删除释放指针为空; 给予最后的对象最高控制
-                    log.warn("系统遇到FAT问题, 正在自动重建FAT脏指针");
-                    //干掉pos:取消被引用(删除逻辑已经实现), 取消order, 并且在FAT中指向空
-                    order.remove(pos);
-                    allFAT.set(pos, Null_Pointer);
-
-                    breakFAT(allFAT);
-                }
-
-
-
-            } else { //查找链断裂, 代表找到了全部的Order
-                return order;
-            }
-        }*/
-
-        //还是找不到退出?
         log.debug("FATorder序列不能正常使用了");
         return null;
     }
+
 
     /**
      * FAT查找第一个空闲块: 找NP
@@ -296,7 +305,7 @@ public class HandleDiskCompo extends BaseCompo {
      *
      * @return FAT序列的综合下标; if -1: 没有找到空闲块
      */
-    public static Integer get1FreeFAT() {
+    public Integer get1FreeFAT() {
         List<Integer> allFAT = mergeFATs();
         Map<Integer, Integer> allFATMap = new HashMap<>();
 
@@ -309,6 +318,10 @@ public class HandleDiskCompo extends BaseCompo {
         if (order != null) {
             pre = order.get(order.size() - 1);
         } else {
+            log.warn("系统order序列不能正常使用了");
+            return -1;
+        }
+        if (pre == null) {
             log.warn("系统order序列不能正常使用了");
             return -1;
         }
@@ -355,7 +368,7 @@ public class HandleDiskCompo extends BaseCompo {
      *
      * @return 逻辑FAT位置
      */
-    public static Integer set1FATUse() {
+    public Integer set1FATUse() {
 
         Integer pos = get1FreeFAT(); //FAT序列中有没有空闲块
 
@@ -384,13 +397,14 @@ public class HandleDiskCompo extends BaseCompo {
         return pos;
     }
 
+
     /**
      * 释放block空间: 将FAT最晚的一个块指向这个位置, 这个位置同样指向空(514)
      *
      * @param blockNum 要释放的块号
      * @return FAT中释放的块号(可能已经不能使用) / -1失败
      */
-    public static Integer set1FATFree(int blockNum) {
+    public Integer set1FATFree(int blockNum) {
 
         List<Integer> order = getFATOrder();
 
@@ -447,11 +461,13 @@ public class HandleDiskCompo extends BaseCompo {
 
     }
 
+    //! 3. 初始目录
+
     /**
      * 将根目录下的根目录集合一并挂载到磁盘系统中(Blocks + TXT), 默认是位于FAT后面
      * <p>需要创建temp_fcb封装每一个目录, 最后还得只写一次TXT</p>
      */
-    public static void mountDefaultDir2BLOCKS() {
+    public void mountDefaultDir2BLOCKS() {
         //setBytes21Block_TXT(str2Byte(root_path.name), pos); //可不能这么写哦! 是把这8个B直接合并FCB
         //简化: 由于没有对这些根目录操作的可能, 因此采用直接注入磁盘Blocks与TXT的方法
 
@@ -472,23 +488,5 @@ public class HandleDiskCompo extends BaseCompo {
         setBytes21Block_TXT(bytes, pos);
     }
 
-    @Override
-    public void initial() {
-        Class<?> clazz = this.getClass();
-        Object instance = this;
-        super.initial(clazz, instance);
-    }
-
-    @Override
-    public void loadArtifact(Class<?> clazz, Object instance) {
-
-    }
-
-    //! 3. 初始目录
-
-    @Override
-    public void loadConfig() {
-
-    }
 
 }
