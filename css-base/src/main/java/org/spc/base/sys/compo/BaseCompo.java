@@ -61,7 +61,9 @@ public abstract class BaseCompo {
     /**
      * 初始化1 加载工件
      */
-    public abstract void loadArtifact(Class<?> clazz, Object instance);
+    public void loadArtifact(Class<?> clazz, Object instance) {
+        artifactLoader.load(clazz, instance);
+    }
 
     /**
      * 初始化2 加载配置
