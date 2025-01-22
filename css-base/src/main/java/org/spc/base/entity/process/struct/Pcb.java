@@ -32,10 +32,12 @@ public class Pcb {
      * 寄存器
      */
     private HashMap<String, Integer> register;
+
     /**
      * 运行哪条语句
      */
     private String targetLine;
+
     /**
      * 阻塞原因
      */
