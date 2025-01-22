@@ -63,7 +63,9 @@ public abstract class BaseApp {
     /**
      * 初始化1 加载组件
      */
-    public abstract void loadCompo(Class<?> clazz, Object instance);
+    public void loadCompo(Class<?> clazz, Object instance) {
+        compoLoader.load(clazz, instance);
+    }
 
     /**
      * 初始化2 加载配置
